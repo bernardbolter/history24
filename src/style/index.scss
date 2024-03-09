@@ -1,0 +1,12 @@
+@import './vars.module.scss';
+@import './home.scss';
+@import './map.scss';
+@import './list.scss';
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
