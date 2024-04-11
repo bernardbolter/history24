@@ -6,7 +6,21 @@ export const HistoryContext = createContext()
 
 const HistoryProvider = ({ children }) => {
     const [history, setHistory] = useState({
-        hsitoryOn: false
+        imageUrl: 'https://digitalcityseries.com/art/a-colorful-history/',
+        original: [],
+        filtered: [],
+        checked: [],
+        sorting: '',
+        navOpen: false,
+        currentCity: 'San Francisco',
+        searchTerm: '',
+        viewMap: true,
+        viewContact: false,
+        viewGates: false,
+        // map
+        center: { lat: 52.518611, lng: 13.408333 },
+        zoomLevel: 15,
+        mapNavKey: []
     })
 
     useEffect(() => {

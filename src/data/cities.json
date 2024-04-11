@@ -1,0 +1,18 @@
+[
+    {
+        "slug" : "sfc",
+        "name" : "San Francisco"
+    },
+    {
+        "slug" : "berlin",
+        "name" : "Berlin"
+    },
+    {
+        "slug" : "hamburg",
+        "name" : "Hamburg"
+    },
+    {
+        "slug" : "available",
+        "name" : "Available Artwork"
+    }
+]

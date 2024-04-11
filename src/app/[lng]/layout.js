@@ -12,7 +12,15 @@ export async function generateStatisParams() {
 
 export const metadata = {
   title: "A Colorful History",
-  description: "A Paint Photography project from Bernard BOlter",
+  description: "A Paint Photography project from Bernard Bolter",
+  icons: {
+    icon: [
+      {
+        type: 'image/svg+xml',
+        url: '/icon.svg'
+      }
+    ]
+  }
 };
 
 const barlow = Barlow_Semi_Condensed({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] });

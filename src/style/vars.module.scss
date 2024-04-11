@@ -1,15 +1,43 @@
 // COLORS
 
 $red: #A41E22;
+$redOrange: #CB5722;
 $orange: #F09120;
+$orangeYellow: #EAA121;
 $yellow: #E1B324;
+$yellowOlive: #B4AA45;
 $olive: #869F66;
+$oliveGreen: #6BA155;
 $green: #4DA446;
+$greenAqua: #419279;
 $aqua: #1D9F97;
+$aquaColbolt: #3482AD;
 $colbalt: #3482AD;
+$colbaltBlue: #3770AA;
 $blue: #3B5BA9;
+$bluePurple: #50559A;
 $purple: #674D8C;
 $dark: #393A3A;
+
+:export {
+    red: $red;
+    redOrange: $redOrange;
+    orange: $orange;
+    orangeYellow: $orangeYellow;
+    yellow: $yellow;
+    yellowOlive: $yellowOlive;
+    olive: $olive;
+    oliveGreen: $oliveGreen;
+    green: $green;
+    greenAqua: $greenAqua;
+    aqua: $aqua;
+    aquaColbolt: $aquaColbolt;
+    colbalt: $colbalt;
+    colbaltBlue: $colbaltBlue;
+    blue: $blue;
+    bluePurple: $bluePurple;
+    purple: $purple;
+} 
 
 $nav-background: #ECECEC;
 $art-list-background: #F8F8F8;
@@ -17,3 +45,12 @@ $menu-color: #717171;
 $error-red: #BE4352;
 $less-dark: #5E5E5E;
 $pin-color: #9E5D5D;
+
+// BREAKPOINTS
+
+$desktop : 769px;
+
+// TRANSITIONS
+
+$fast : .5s ease-in-out;
+$slow : 1s ease-in-out;
