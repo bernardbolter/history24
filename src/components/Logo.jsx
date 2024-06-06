@@ -17,7 +17,10 @@ const Logo = ({ lng }) => {
             ) : (
                 <ColorLogo />
             )}
-            <p className={history.navOpen ? 'logo-tageline logo-tageline-on' : 'logo-tageline'}>{history.currentCity}</p>
+            {/* <p className={history.navOpen ? 'logo-tageline logo-tageline-on' : 'logo-tageline'}>{history.currentCity}</p> */}
+            <h4>New website coming soon!</h4>
+            <p>for any questions or inquiries</p> 
+            <h3>- info@acolorfulhisty.com</h3>
         </div>
     )
 }

@@ -1,10 +1,11 @@
 .logo {
     width: 200px;
-    position: fixed;
+    // position: fixed;
     z-index: 200;
     top: 20px;
     left: 20px;
     transition: left $fast;
+    color: #666;
 
     svg {
         width: 100%;
