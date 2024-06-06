@@ -10,7 +10,7 @@ const HistoryProvider = ({ children }) => {
         original: [],
         filtered: [],
         checked: [],
-        sorting: '',
+        sorting: 'random',
         navOpen: false,
         currentCity: 'San Francisco',
         searchTerm: '',

@@ -27,11 +27,11 @@ const Artworks = ({ lng, artworks }) => {
 
     return (
         <section className="artworks-container">
-            {history.filtered.length === 0 ? (
+            {history.filtered.length !== 0 ? (
                 <Loader />
             ) : (
                 <>
-                    {history.viewMap ? (
+                    {!history.viewMap ? (
                         <Map lng={lng} />
                     ) : (
                         <List lng={lng} />

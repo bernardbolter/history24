@@ -12,8 +12,8 @@
     height: 30px;
     position: fixed;
     z-index: 200;
-    top: 4px;
-    right: 5%;
+    top: 10px;
+    right: 20px;
     background: none;
     cursor: pointer;
     border: none;
@@ -66,8 +66,7 @@
 
 .nav-button-open {
     @media (min-width: $desktop) {
-        right: 30px;
-        transition: right $fast
+        transition: right $fast;
     }
 
     span:nth-child(1) {
@@ -102,14 +101,14 @@
     width: 90%;
     margin: 0;
     padding: 60pc 5% 5px;
-    top: -450px;
+    top: -470px;
     z-index: 100;
     transition: top $fast;
     border-bottom: none;
 
     @media (min-width: $desktop) {
         width: 300px;
-        height: 450px;
+        height: 470px;
         right: 0;
         left: auto !important;
         padding: 60px 30px 5px;
@@ -128,13 +127,101 @@
     flex-direction: row;
 }
 
-.nav-switch-filter-container {
+.nav-sort-filter {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-bottom: 1px solid $light-dark;
+    padding: 0 0 5px;
+}
+
+.nav-switch-lang-container {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    margin-top: -20px;
+}
+
+/////////////////////// SORT
+
+.nav-sort-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    width: 45%;
+    margin: 0 0 0 5%;
+
+    p {
+        font-size: 11px;
+        color: $dark;
+        padding: 0;
+        width: 100%;
+        padding: 0 0 0 19px;
+    }
+}
+
+.nav-radios {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;;
+
+    label {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        margin: 7px 0;
+        cursor: pointer;
+    }
+
+    span {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: $dark;
+        margin: 0 0 0 5px;
+        font-weight: 400;
+    }
+
+    input {
+        appearance: none;
+        position: relative;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 14px;
+        width: 14px;
+        background: rgab(255,255,255,.4);
+        border-radius: 7px;
+        border: 1px solid $dark;
+        color: $dark;
+        cursor: pointer;
+        margin: 0;
+        outline: none;
+
+        &:hover {
+            background: rgba(255,255,255,.7)
+        }
+
+        &:checked::before {
+            position: absolute;
+            display: inline;
+            font-size: 12px;
+            text-align: center;
+            line-height: 14px;
+        }
+
+        &:checked::after {
+            content: "";
+            display: block;
+            position: relative;
+        }
+    }
 }
 
 ///////////////////// SWITCH
@@ -274,77 +361,6 @@
     height: 15px;
 }
 
-/////////////////////// SORT
-
-.nav-sort-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-
-    p {
-        font-size: 10px;
-        color: $dark;
-        padding: 0;
-        margin: 20px 0 3px 0;
-    }
-}
-
-.nav-radios {
-    label {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        margin: 7px 0;
-        cursor: pointer;
-    }
-
-    span {
-        font-size: 11px;
-        text-transform: uppercase;
-        color: $dark;
-        margin: 0 5px 0 0;
-        font-weight: 400;
-    }
-
-    input {
-        appearance: none;
-        position: relative;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 14px;
-        width: 14px;
-        background: rgab(255,255,255,.4);
-        border-radius: 7px;
-        border: 1px solid $dark;
-        color: $dark;
-        cursor: pointer;
-        margin: 0;
-        outline: none;
-
-        &:hover {
-            background: rgba(255,255,255,.7)
-        }
-
-        &:checked::before {
-            position: absolute;
-            content: "✓";
-            display: inline;
-            font-size: 12px;
-            text-align: center;
-            line-height: 14px;
-        }
-
-        &:checked::after {
-            content: "";
-            display: block;
-            position: relative;
-        }
-    }
-}
-
 //////////////////////// LINKS
 
 .nav-links-cities-container {
@@ -353,10 +369,14 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    padding: 10px 0;
+    margin: 10px 0;
+    border-top: 1px solid $light-dark;
+    border-bottom: 1px solid $light-dark;
 }
 
 .nav-links-container {
-    width: 50%;
+    width: 100%;
     display: block;
     display: flex;
     flex-direction: column;
@@ -364,7 +384,7 @@
 
     p {
         color: $dark;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1.7;
         margin: 0;
         padding: 0;
@@ -378,7 +398,7 @@
 
     a {
         color: $dark;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1.7;
         text-decoration: none;
         display: block;
@@ -392,6 +412,14 @@
     }
 }
 
+.nav-links-about-prints {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 //////////////////////// CITIES
 
 .nav-cities-container {
@@ -402,9 +430,9 @@
     align-items: flex-end;
 
     p {
-        font-size: 10px;
+        font-size: 11px;
         color: $dark;
-        padding: 0;
+        padding: 0 13px 0;
         margin: 0;
         text-align: right;
     }
@@ -419,6 +447,7 @@
         margin: 0;
         padding: 0;
         text-transform: none;
+        cursor: pointer;
     }
 
     input {
@@ -444,7 +473,6 @@
 
     input:checked::before {
         position: absolute;
-        content: "✓";
         display: inline;
         font-size: 12px;
         text-align: center;
@@ -456,5 +484,26 @@
         content: "";
         display: block;
         position: relative;
+    }
+}
+
+.nav-contact {
+    width: 100%;
+    margin: 10px 0 0;
+    padding: 5px 0 0;
+    border-top: 1px solid $light-dark;
+
+    p {
+        color: $dark;
+        font-size: 16px;
+        line-height: 1.7;
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
