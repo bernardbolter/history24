@@ -1,7 +1,12 @@
 {
     "aColorfulHistory" : "eine farbenfrohe Geschichte",
-    "about" : "über",
-    "artPrints" : "kunstdrucke",
+    "about" : "Über",
+    "contact" : "Kontakt",
+    "artPrints" : "Kunstdrucke",
     "theGatesOfPerception" : "die Tore der Wahrnehmung",
-    "mediumsOfWar" : "Mediums of War"
+    "mediumsOfWar" : "Medien des Krieges",
+    "augmentedReality" : "Augmented Reality - AR",
+    "filterArtworks" : "Kunstwerke filtern",
+    "sortBy" : "Sortieren nach",
+    "availableArtworks" : "Verfügbare Kunstwerke"
 }

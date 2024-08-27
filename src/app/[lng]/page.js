@@ -38,6 +38,14 @@ async function getArtwork() {
           title(format: RENDERED)
           databaseId
           id
+          featuredImage {
+            node {
+              sizes
+              srcSet
+              sourceUrl
+              uri
+            }
+          }
         }
       }
     }
@@ -60,10 +68,10 @@ async function getArtwork() {
 
 const Home = async ({ params: { lng} }) => {
   const { t } = await useTranslation(lng, 'common')
-  const [history, setHistory] = useContext(HistoryContext)
+  // const [history, setHistory] = useContext(HistoryContext)
   const artwork = await getArtwork()
   console.log("art:", artwork)
-  setHistory(state => ({ ...state, }))
+  // setHistory(state => ({ ...state, }))
 
   return (
     <section className="home-container">

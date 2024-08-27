@@ -17,6 +17,8 @@ const HistoryProvider = ({ children }) => {
         viewMap: true,
         viewContact: false,
         viewGates: false,
+        viewWar: false,
+        viewAR: false,
         // map
         center: { lat: 52.518611, lng: 13.408333 },
         zoomLevel: 15,
