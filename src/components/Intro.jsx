@@ -1,16 +1,15 @@
 import Image from "next/image"
 import A from "../images/intro/a_acolorfulhistory.jpg"
 
-const Animation = () => {
+const Intro = () => {
     return (
-        <div className="animation-container">
-            <h1>Animation</h1>
+        <section className="intro-container">
             <Image
                 src={A}
                 alt="Picture of the author"
             />
-        </div>
+        </section>
     )
 }
 
-export default Animation
+export default Intro

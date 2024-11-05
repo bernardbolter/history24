@@ -20,8 +20,10 @@ const HistoryProvider = ({ children }) => {
         viewWar: false,
         viewAR: false,
         // map
-        center: { lat: 52.518611, lng: 13.408333 },
-        zoomLevel: 15,
+        coords: { lat: 52.518611, lng: 13.408333 },
+        zoomLevel: 12,
+        popupOpen: '',
+        currentMapArtwork: {},
         mapNavKey: []
     })
 

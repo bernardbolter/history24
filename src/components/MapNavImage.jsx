@@ -20,6 +20,7 @@ const MapNavImage = ({ art, index }) => {
             key={art.slug}
             onClick={() => {
                 console.log("clicked " + art.slug)
+                setHistory(state => ({ ...state, currentMapArtwork: art, popupOpen: art.slug }))
             }}
             ref={mapNavImageRef}  
         >

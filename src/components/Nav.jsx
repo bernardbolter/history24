@@ -25,7 +25,7 @@ const decideColor = variables => {
 const Nav = ({ lng }) => {
     const [history, setHistory] = useContext(HistoryContext)
     const { t } = useTranslation(lng, 'common')
-    console.log(history)
+    // console.log(history)
 
     return (
         <section className="nav-container">

@@ -4,7 +4,7 @@ import MapNavImage from '@/components/MapNavImage'
 
 const MapNav = () => {
     const [history, setHistory] = useContext(HistoryContext)
-    console.log(history.mapNavKey)
+    // console.log(history.mapNavKey)
 
     return (
         <section className="map-nav-container">

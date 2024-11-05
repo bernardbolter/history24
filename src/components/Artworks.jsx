@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, Suspense, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { HistoryContext } from '@/providers/HistoryProvider'
 import dynamic from 'next/dynamic'
 
@@ -13,25 +13,46 @@ const Map = dynamic(() => import('@/components/Map'), {
 
 const Artworks = ({ lng, artworks }) => {
     const [history, setHistory] = useContext(HistoryContext)
-    console.log(artworks)
+    const [loaded, setLoaded] = useState(false)
+    const [error, setError] = useState(false)
+    // console.log(artworks)
 
     useEffect(() => {
+        if (artworks.length === 0) {
+            setError(true)
+        } else {
+            if (history.filtered.length !== 0) {
+                setError(true)
+            } else {
+                setLoaded(true)
+            }
+        }
+ 
         if (history.original.length === 0) {
+            const lessArt = []
+            artworks.map(artwork => {
+                if (artwork.artworkFields.lat) {
+                    lessArt.push(artwork)
+                }
+            })
             setHistory(state => ({
                 ...state,
                 original: artworks,
-                filtered: artworks
+                filtered: lessArt
             }))
         }
-    }, [artworks])
+    }, [artworks, history.orginial])
+
+    // console.log("fitlered: ", history.filtered)
 
     return (
         <section className="artworks-container">
-            {history.filtered.length !== 0 ? (
+            {!loaded 
+            ? (
                 <Loader />
             ) : (
                 <>
-                    {!history.viewMap ? (
+                    {history.viewMap ? (
                         <Map lng={lng} />
                     ) : (
                         <List lng={lng} />
