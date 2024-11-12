@@ -4,6 +4,8 @@ import { useState, useEffect, createContext } from 'react'
 
 export const HistoryContext = createContext()
 
+import { interpolate } from '@/helpers'
+
 const HistoryProvider = ({ children }) => {
     const [history, setHistory] = useState({
         imageUrl: 'https://digitalcityseries.com/art/a-colorful-history/',
@@ -24,7 +26,8 @@ const HistoryProvider = ({ children }) => {
         zoomLevel: 12,
         popupOpen: '',
         currentMapArtwork: {},
-        mapNavKey: []
+        mapNavKey: [],
+        mapPointScale: interpolate(12, 0, 23, 0, 2)
     })
 
     useEffect(() => {
