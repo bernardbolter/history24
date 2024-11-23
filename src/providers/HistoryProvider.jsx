@@ -27,7 +27,9 @@ const HistoryProvider = ({ children }) => {
         popupOpen: '',
         currentMapArtwork: {},
         mapNavKey: [],
-        mapPointScale: interpolate(12, 0, 23, 0, 2)
+        mapPointScale: interpolate(12, 0, 23, 0, 2),
+        currentMapNavIndex: 0,
+        mapNavHidden: false
     })
 
     useEffect(() => {

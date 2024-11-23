@@ -2,6 +2,8 @@
 
 import { useContext, useEffect, useState } from 'react'
 import { HistoryContext } from '@/providers/HistoryProvider'
+import { useTranslation } from '@/app/i18n'
+
 import dynamic from 'next/dynamic'
 
 import List from '@/components/List'
@@ -13,6 +15,7 @@ const Map = dynamic(() => import('@/components/Map'), {
 
 const Artworks = ({ lng, artworks }) => {
     const [history, setHistory] = useContext(HistoryContext)
+    const { t } = useTranslation(lng, 'common')
     const [loaded, setLoaded] = useState(false)
     const [error, setError] = useState(false)
     // console.log(artworks)

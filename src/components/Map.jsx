@@ -2,26 +2,33 @@
 
 import { useState, useEffect, useRef, useContext, useMemo, useCallback } from 'react'
 import { HistoryContext } from '@/providers/HistoryProvider'
-import "@maptiler/sdk/dist/maptiler-sdk.css"
+import { useTranslation } from "@/app/i18n/client"
+import Image from 'next/image'
+
 import 'mapbox-gl/dist/mapbox-gl.css'
 import MapBox, { Marker, Popup, useMap } from 'react-map-gl'
 
 import MapPin from '@/svg/mapPin'
-
 import MapNav from './MapNav'
+import RightArrow from '@/svg/rightArrow'
 
 import { interpolate } from '@/helpers'
-
 
 const Map = ({ lng }) => {
   // console.log("lng: ", lng)
  
   const [history, setHistory] = useContext(HistoryContext)
-  // const [popupOpen, setPopupOpen] = useState({})
+  // const { t } = useTranslation(lng, 'common')
+  // console.log(history.popupOpen)
+  // console.log(t)
 
   const { current: map } = useMap()
 
   const mapRef = useRef(null)
+
+  const [markersIndex, setMarkersIndex] = useState([])
+  const [markersLeftArray, setMarkersLeftArray] = useState([])
+  console.log(markersIndex)
 
   const [viewport, setViewport] = useState({
     latitude: history.coords.lat,
@@ -32,7 +39,7 @@ const Map = ({ lng }) => {
   const [singleMarkers, setSingleMarkers] = useState([])
   const [multipleMarkers, setMultipleMarkers] = useState([])
 
-  console.log(history.popupOpen)
+  // console.log(history.popupOpen)
 
   // split all paintings into markers where markers with the same lat get bundled
   useEffect(() => {
@@ -49,20 +56,25 @@ const Map = ({ lng }) => {
       })
       placedArtwork.forEach((obj, i) => {
         const value = obj['artworkFields']['lat']
+        console.log("lat: ", value)
           if (value !== undefined) {
               if (sortedArtwork.length === 0) {
                 sortedArtwork.push([obj])
               } else if (sortedArtwork.some(art => art[0].artworkFields.lat === value)) {
                 const addIndex = sortedArtwork.findIndex(art => art[0].artworkFields.lat === value)
-                sortedArtwork[0].push(obj)
+                console.log("add index: ", addIndex)
+                sortedArtwork[addIndex].push(obj)
               } else {
                 sortedArtwork.push([obj])
               }
           }
       });
 
+      console.log("sorted: ", sortedArtwork)
+
       const tempSingleMarkers = []
       const tempMultipleMarkers = []
+      // setMarkersIndex([])
 
       sortedArtwork.map(artwork => {
         console.log(artwork.length)
@@ -70,11 +82,24 @@ const Map = ({ lng }) => {
           tempSingleMarkers.push(artwork)
         } else {
           tempMultipleMarkers.push(artwork)
+          // setMarkersIndex(state => [...state, 0])
+          console.log("pushing")
         }
       })
 
+      // if (markersIndex.length === 0 ) {
+      //   console.log(markersIndex.length, " inside")
+        // tempMultipleMarkers.map(marker => {
+        //   console.log(marker, "more inside")
+        //   setMarkersIndex(state => [...state, 1])
+        // })
+      // }
+
       setSingleMarkers(tempSingleMarkers)
       setMultipleMarkers(tempMultipleMarkers)
+      console.log('single: ', tempSingleMarkers)
+      console.log("multiple: ", tempMultipleMarkers)
+      console.log("markindex: ", markersIndex)
     }
   }, [history.filtered])
 
@@ -99,16 +124,48 @@ const Map = ({ lng }) => {
           longitude={marker[0].artworkFields.lng}
           latitude={marker[0].artworkFields.lat}
           onClose={() => setHistory(state => ({ ...state, popupOpen: '' }))}
-          // closeButton={true}
-          offsetLeft={10}
+          closeButton={false}
+          offset={25}
+          anchor='bottom'
         >
-          <p>popup</p>
+          <div className="map-pop-single-container">
+            <Image
+                src={marker[0].artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl}
+                alt={`thumbnail image of ${marker[0].title}`}
+                width={100 * marker[0].artworkFields.proportion}
+                height={100}
+            />
+            <div 
+              className="map-single-pop-overlay"
+              style={{
+                width: 100 * marker[0].artworkFields.proportion,
+                height: 100
+              }}  
+            >
+              {/* <p>{t('about')}</p> */}
+              <p>click to view larger</p>
+            </div>
+            <p>{marker[0].title}</p>
+          </div>
         </Popup>
       )}
     </div>
   ), [singleMarkers, history.popupOpen]))
 
-  const multipleArtMarkers = useMemo(() => multipleMarkers.map(markers => (
+  const getAllMarkerWidths = markers => {
+    var allWidths = 0
+    markers.map(marker => {
+      allWidths = allWidths + (100 * marker.artworkFields.proportion)
+    })
+    return allWidths
+  }
+
+  // useCallback(() => {
+  //   console.log("callback: ", multipleMarkers)
+  //   console.log("index multi: ", markersIndex)
+  // }, [multipleMarkers, markersIndex])
+
+  const multipleArtMarkers = useMemo(() => multipleMarkers.map((markers, i) => (
     <div 
       className="map-marker-container"
       key={markers[0].slug}
@@ -124,19 +181,180 @@ const Map = ({ lng }) => {
       >
         <MapPin />
       </Marker>
-      {history.popupOpen === markers[0].slug && (
+      {((history.popupOpen === markers[0].slug) 
+        || (history.popupOpen === markers[1].slug)
+        || (history.popupOpen === markers[2]?.slug) 
+        || (history.popupOpen === markers[3]?.slug) 
+        || (history.popupOpen === markers[4]?.slug)
+        || (history.popupOpen === markers[5]?.slug)
+        || (history.popupOpen === markers[6]?.slug)
+        || (history.popupOpen === markers[7]?.slug)
+        || (history.popupOpen === markers[8]?.slug)
+        || (history.popupOpen === markers[9]?.slug)
+        || (history.popupOpen === markers[10]?.slug)) 
+        && (
         <Popup
           longitude={markers[0].artworkFields.lng}
           latitude={markers[0].artworkFields.lat}
           onClose={() => setHistory(state => ({ ...state, popupOpen: '' }))}
-          // closeButton={true}
-          offsetLeft={10}
+          closeButton={false}
+          offset={20}
+          anchor='bottom'
+          style={{
+            padding: 5
+          }}
         >
-          <p>popup multiple</p>
+          <div 
+            className="map-pop-multiple-container"
+            style={{
+              width: 100 * markers[0].artworkFields.proportion
+            }}   
+          >
+            <div 
+              className={
+                markersIndex[i] > 0
+                ? "map-marker-left-container"
+                : "map-marker-left-container marker-nav-disabled"
+              }
+              onClick={() => {
+                if (markersIndex[i] > 0) {
+                  // console.log("click left: ", i, markersIndex[i], markers.length)
+                  const newMarkersIndex = [...markersIndex]
+                  newMarkersIndex[i] = markersIndex[i] - 1
+                  setMarkersIndex(newMarkersIndex)
+                  const newMarkersLeftArray = [...markersLeftArray]
+                  var newMarkerLeft = 0
+                  const staticNewMarkerIndex = newMarkersIndex[i]
+                  markers.map((mark, i) => {
+                    if (i < staticNewMarkerIndex) {
+                      newMarkerLeft = newMarkerLeft - (mark.artworkFields.proportion * 100)
+                    }
+                  })
+                  newMarkersLeftArray[i] = newMarkerLeft
+                  setMarkersLeftArray(newMarkersLeftArray)
+                } else {
+                  console.log("no click left: ", i, markersIndex[i], markers.length)
+                }
+              }}
+            >
+              <RightArrow />
+            </div>
+            <div 
+              className={
+                markersIndex[i] < (markers.length - 1)
+                ? "map-marker-right-container"
+                : "map-marker-right-container marker-nav-disabled"
+              }
+              onClick={() => {
+                // check if images should scroll
+                if (markersIndex[i] < (markers.length - 1)) {
+                  const newMarkersIndex = [...markersIndex]
+                  newMarkersIndex[i] = markersIndex[i] + 1
+                  // update the index in the marker index array
+                  setMarkersIndex(newMarkersIndex)
+                  const newMarkersLeftArray = [...markersLeftArray]
+                  var newMarkerLeft = 0
+                  const staticNewMarkerIndex = newMarkersIndex[i]
+                  markers.map((mark, i) => {
+                    if (i < staticNewMarkerIndex) {
+                      newMarkerLeft = newMarkerLeft - (mark.artworkFields.proportion * 100)
+                    }
+                  })
+                  newMarkersLeftArray[i] = newMarkerLeft
+                  setMarkersLeftArray(newMarkersLeftArray)
+                } else {
+                  console.log("no click right: ", i, markersIndex[i], markers.length)
+                }
+              }}
+            >
+              <RightArrow />
+            </div>
+            <div 
+              className="map-pop-multiple-inner"
+              style={{
+                width: getAllMarkerWidths(markers),
+                transform: `translateX(${markersLeftArray[i]}px)`
+              }}  
+            >
+              {markers.map(mark => {
+                if (mark.slug === history.popupOpen) {
+                  return (
+                    <div 
+                      className="map-pop-multiple-art"
+                      style={{
+                        width: 100 * mark.artworkFields.proportion,
+                      }}  
+                    >
+                      <Image
+                          src={mark.artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl}
+                          alt={`thumbnail image of ${mark.title}`}
+                          width={100 * mark.artworkFields.proportion}
+                          height={100}
+                      />
+                      <div 
+                        className="map-pop-multiple-overlay"
+                        style={{
+                          width: 100 * mark.artworkFields.proportion,
+                          height: 100
+                        }}  
+                      >
+                        {/* <p>{t('about')}</p> */}
+                        <p>click to view larger</p>
+                      </div>
+                      <p>{mark.title}</p>
+                    </div>
+                  )
+                }
+              })}
+              {markers.map(mark => {
+                if (mark.slug !== history.popupOpen) {
+                  return (
+                    <div 
+                      className="map-pop-multiple-art"
+                      style={{
+                        width: 100 * mark.artworkFields.proportion,
+                      }}
+                    >
+                      <Image
+                          src={mark.artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl}
+                          alt={`thumbnail image of ${mark.title}`}
+                          width={100 * mark.artworkFields.proportion}
+                          height={100}
+                      />
+                        <div 
+                          className="map-pop-multiple-overlay"
+                          style={{
+                            width: 100 * mark.artworkFields.proportion,
+                            height: 100
+                          }}  
+                        >
+                          {/* <p>{t('about')}</p> */}
+                          <p>click to view larger</p>
+                        </div>
+                      <p>{mark.title}</p>
+                    </div>
+                  )
+                }
+              })}
+            </div>
+          </div>
         </Popup>
       )}
     </div>
-   ), [multipleMarkers, history.popupOpen ]))
+   ), [multipleMarkers, history.popupOpen, markersIndex]))
+
+   useEffect(() => {
+    // setMarkersIndex([])
+    // if (markersIndex.length === 0 || history.popupOpen.length > 0) {
+      console.log("new markers index")
+      setMarkersIndex([])
+      setMarkersLeftArray([])
+      multipleMarkers.map(() => {
+        setMarkersIndex(state => [...state, 0])
+        setMarkersLeftArray(state => [...state, 0])
+      })
+    // }
+   }, [multipleMarkers, history.popupOpen])
 
   // fly to function
   useEffect(() => {
@@ -147,7 +365,6 @@ const Map = ({ lng }) => {
       }
     }
   }, [history.currentMapArtwork])
-
 
   // make the marker icon scale with the zoom of the map
   const onZoom = useCallback(e => {
@@ -168,7 +385,7 @@ const Map = ({ lng }) => {
             {singleArtMarkers}
             {multipleArtMarkers}
           </MapBox>
-          <MapNav />
+          <MapNav lng={lng} />
       </div>
     )
 }

@@ -4,8 +4,10 @@ import Image from 'next/image'
 
 const MapNavImage = ({ art, index }) => {
     // console.log("map nav image: ", art)
+    // console.log(art.artworkFields.artworkImage?.mediaDetails.sizes[2].sourceUrl)
     const [ history, setHistory] = useContext(HistoryContext)
     const mapNavImageRef = useRef(null)
+    // console.log("map nav width: ", mapNavImageRef)
 
     useEffect(() => {
         if (mapNavImageRef !== null) {
@@ -23,12 +25,17 @@ const MapNavImage = ({ art, index }) => {
                 console.log("clicked " + art.slug)
                 setHistory(state => ({ ...state, currentMapArtwork: art, popupOpen: art.slug }))
             }}
-            ref={mapNavImageRef}  
+            ref={mapNavImageRef}
+            // style={{
+            //     width: 100,
+            //     height: 100
+            // }}
         >
             <Image
-                src={`${history.imageUrl}${art.slug}/${art.slug}_sm.jpg`}
+                src={art.artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl}
                 alt={`thumbnail image of ${art.title}`}
-                fill
+                width={100 * art.artworkFields.proportion}
+                height={100}
             />
         </div>
     )

@@ -1,6 +1,6 @@
 .map-nav-container {
     width: 100%;
-    height: 120px;
+    height: 110px;
     position: fixed;
     z-index: 2100;
     bottom: 0;
@@ -10,16 +10,64 @@
 }
 
 .map-nav-artworks {
-    width: auto;
+    width: calc(100% - 60px);
+    margin: 0 30px;
     position: relative;
-    height: 100%;
+    height: 115px;
+    overflow-x: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+.map-nav-artworks::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
+
+.map-nav-artworks-inner {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: nowrap;
+    transition: all .5s ease-in-out;
+}
+
+.map-nav-arrow {
+    position: fixed;
+    height: 110px;
+    background: $nav-background;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+        width: 80%;
+        fill: $dark-fill;
+    }
+}
+
+.map-nav-arrow-disabled {
+    pointer-events: none;
+    opacity: .1;
+}
+
+.map-nav-right {
+    right: 0;
+    bottom: 0;
+}
+
+.map-nav-left {
+    left: 0;
+    bottom: 0;
+
+    svg {
+        transform: rotate(180deg);
+    }
 }
 
 .map-nav-art {
-    margin: 10px;
+    margin: 5px 5px 0 0;
 }

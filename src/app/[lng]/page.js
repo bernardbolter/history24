@@ -29,21 +29,12 @@ const Home = async ({ params: { lng} }) => {
 
   return (
     <section className="home-container">
-
             <Nav lng={lng} />
             <Logo lng={lng} />
             <Artworks 
               artworks={artwork}
               lng={lng}  
             /> 
-
-            {/* {!artwork
-              ? <p>loading...</p>
-              : <Artworks 
-                  artworks={artwork}
-                  lng={lng}  
-                /> 
-            } */}
     </section>
   )
 }

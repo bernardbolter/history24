@@ -6,27 +6,38 @@ export const getAllArtwork = `
             nodes {
                 slug
                 artworkFields {
-                slug
-                city
-                artworklink {
-                    url
-                    title
-                }
-                country
-                forsale
-                height
-                lat
-                lng
-                medium
-                metadescription
-                metakeywords
-                orientation
-                proportion
-                series
-                size
-                style
-                width
-                year
+                    city
+                    artworklink {
+                        url
+                        title
+                    }
+                    artworkImage {
+                        mediaDetails {
+                        sizes(include: [MEDIUM, LARGE, THUMBNAIL]) {
+                                sourceUrl
+                                height
+                                width
+                            }
+                            width
+                            height
+                        }
+                        mediaItemUrl
+                    }
+                    country
+                    forsale
+                    height
+                    lat
+                    lng
+                    medium
+                    metadescription
+                    metakeywords
+                    orientation
+                    proportion
+                    series
+                    size
+                    style
+                    width
+                    year
                 }
                 title(format: RENDERED)
                 databaseId

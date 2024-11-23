@@ -8,5 +8,6 @@
     "augmentedReality" : "Augmented Reality - AR",
     "filterArtworks" : "Filter Artworks",
     "sortBy" : "Sort By",
-    "availableArtworks" : "Available Artworks"    
+    "availableArtworks" : "Available Artworks",
+    "clickToViewLarger" : "Click to view larger" 
 }
