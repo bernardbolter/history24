@@ -10,7 +10,7 @@ const List = () => {
         <section className="list-container">
             {history.filtered.length !== 0 && (
                 <div className="list-artworks-container">
-                    {history.filtered.map(artwork => <Artwork artwork={artwork} key={artwork.slug} />)}
+                    {history.filtered.map((artwork, i) => <Artwork artwork={artwork} key={artwork.slug} index={i} />)}
                 </div>
             )}
         </section>

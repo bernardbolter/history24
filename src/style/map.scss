@@ -63,6 +63,12 @@
         opacity: 1;
         transition: opacity .5s ease-in-out;
     }
+
+    svg {
+        width: 70%;
+        height: 70%;
+        fill: $filter-dark;
+    }
 }
 
 .mapboxgl-popup-content {
@@ -117,6 +123,12 @@
     color: $dark-fill;
     top: 0;
 
+    svg {
+        width: 75%;
+        height: 75%;
+        fill: $filter-dark;
+    }
+
     &:hover {
         opacity: 1;
         transition: opacity .5s ease-in-out;
@@ -168,4 +180,14 @@
 
 .marker-nav-disabled {
     opacity: .2;
+}
+
+.map-pop-enlarge-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: green;
+    padding: 13px 5px;
+    box-sizing: content-box;
 }

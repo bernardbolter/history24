@@ -1,12 +1,12 @@
 import { useContext, useMemo } from "react"
 import { HistoryContext } from "@/providers/HistoryProvider"
+
 import MapNavImage from '@/components/MapNavImage'
 
 import RightArrow from "@/svg/rightArrow"
 
 const MapNav = () => {
     const [history, setHistory] = useContext(HistoryContext)
-    // console.log(history.mapNavKey)
 
     const mapNavLeft = useMemo(() => {
         var tempLeft = 0
@@ -23,18 +23,24 @@ const MapNav = () => {
 
     return (
         <section className="map-nav-container">
-            <div 
+            {/* <div 
                 className="map-nav-minimize-container"
                 onClick={() => setHistory(state => ({ ...state, mapNavHidden: !state.mapNavHidden }))}    
             >
-
-            </div>
+                <p>{t('minimize')}</p>
+                <div 
+                className="map-nav-minimize-toggle"
+                style={{ transform: history.mapNavHidden ? 'rotate(90deg)' : 'rotate(0deg)' }}  
+                >
+                <ToggleArrow />
+                </div>
+            </div> */}
             <div 
                 className={history.currentMapNavIndex === 0 ? "map-nav-arrow map-nav-arrow-disabled map-nav-left" : "map-nav-arrow map-nav-left"}
                 onClick={() => {
                     setHistory(state => ({ ...state, currentMapNavIndex: state.currentMapNavIndex - 1 }))
                     console.log(history.currentMapNavIndex)
-                }}  
+                }}
             >
                 <RightArrow />
             </div>

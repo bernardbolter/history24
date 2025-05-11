@@ -3,6 +3,7 @@ import { useTranslation } from '../i18n'
 import Artworks from '@/components/Artworks'
 import Nav from '@/components/Nav'
 import Logo from '@/components/Logo'
+import FilterTab from '@/components/FilterTab'
 
 import { getAllArtwork } from '@/lib/graphql'
 
@@ -31,6 +32,7 @@ const Home = async ({ params: { lng} }) => {
     <section className="home-container">
             <Nav lng={lng} />
             <Logo lng={lng} />
+            <FilterTab lng={lng} />
             <Artworks 
               artworks={artwork}
               lng={lng}  

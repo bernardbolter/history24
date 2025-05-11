@@ -42,6 +42,7 @@ export const getAllArtwork = `
                 title(format: RENDERED)
                 databaseId
                 id
+                date
                 featuredImage {
                     node {
                         sizes

@@ -71,3 +71,22 @@
 .map-nav-art {
     margin: 5px 5px 0 0;
 }
+
+.map-nav-minimize-container {
+    background: $nav-background;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 110px;
+    padding: 2px 11px;
+    border-bottom: 1px solid $filter-dark;
+
+    p {
+        font-size: 10px;
+        color: $dark-fill;
+    }
+}

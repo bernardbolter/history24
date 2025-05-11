@@ -9,5 +9,14 @@
     "filterArtworks" : "Filter Artworks",
     "sortBy" : "Sort By",
     "availableArtworks" : "Available Artworks",
-    "clickToViewLarger" : "Click to view larger" 
+    "clickToViewLarger" : "Click to view larger",
+    "map" : "Map",
+    "list" : "List",
+    "filterAndSort" : "filter & sort",
+    "filter" : "filter",
+    "sort" : "sort",
+    "latest" : "latest",
+    "oldest" : "oldest",
+    "random" : "random",
+    "minimize" : "minimize"
 }

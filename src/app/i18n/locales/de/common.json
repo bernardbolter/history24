@@ -9,5 +9,14 @@
     "filterArtworks" : "Kunstwerke filtern",
     "sortBy" : "Sortieren nach",
     "availableArtworks" : "Verfügbare Kunstwerke",
-    "clickToViewLarger" : "Für eine größere Ansicht anklicken" 
+    "clickToViewLarger" : "Für eine größere Ansicht anklicken",
+    "map" : "Karte",
+    "list" : "Liste",
+    "filterAndSort" : "filtern & sortieren",
+    "filter" : "filtern",
+    "sort" : "sortieren",
+    "latest" : "neueste",
+    "oldest" : "älteste",
+    "random" : "zufällig",
+    "minimize" : "minimieren"
 }

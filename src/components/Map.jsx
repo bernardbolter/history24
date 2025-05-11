@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useEffect, useRef, useContext, useMemo, useCallback } from 'react'
+import { useState, useEffect, useRef, useContext, useMemo, useCallback, useLayoutEffect } from 'react'
 import { HistoryContext } from '@/providers/HistoryProvider'
-import { useTranslation } from "@/app/i18n/client"
+// import { useTranslation } from "@/app/i18n/client"
 import Image from 'next/image'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -11,6 +11,13 @@ import MapBox, { Marker, Popup, useMap } from 'react-map-gl'
 import MapPin from '@/svg/mapPin'
 import MapNav from './MapNav'
 import RightArrow from '@/svg/rightArrow'
+import ToggleArrow from '@/svg/toggleArrow'
+import Enlarge from '@/svg/enlarge'
+
+// import Zoom from 'react-medium-image-zoom'
+import { Controlled as ControlledZoom } from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+import CustomZoomContent from './CustomZoomContent'
 
 import { interpolate } from '@/helpers'
 
@@ -28,7 +35,7 @@ const Map = ({ lng }) => {
 
   const [markersIndex, setMarkersIndex] = useState([])
   const [markersLeftArray, setMarkersLeftArray] = useState([])
-  console.log(markersIndex)
+  const [isZoomedIndex, setIsZoomedIndex] = useState([])
 
   const [viewport, setViewport] = useState({
     latitude: history.coords.lat,
@@ -38,6 +45,7 @@ const Map = ({ lng }) => {
 
   const [singleMarkers, setSingleMarkers] = useState([])
   const [multipleMarkers, setMultipleMarkers] = useState([])
+  const [currentImageEnlarge, setCurrentImageEnlarge] = useState({})
 
   // console.log(history.popupOpen)
 
@@ -103,7 +111,12 @@ const Map = ({ lng }) => {
     }
   }, [history.filtered])
 
-  const singleArtMarkers = useMemo(() => singleMarkers.map(marker => (
+  const handleZoomChange = useCallback((shouldZoom, id) => {
+    console.log("in zoom: " , shouldZoom, id)
+  }, [])
+
+  const singleArtMarkers = useMemo(() => singleMarkers.map(marker => {
+    return (
     <div 
       className="map-marker-container"
       key={marker[0].slug}
@@ -129,28 +142,66 @@ const Map = ({ lng }) => {
           anchor='bottom'
         >
           <div className="map-pop-single-container">
-            <Image
-                src={marker[0].artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl}
-                alt={`thumbnail image of ${marker[0].title}`}
+            <ControlledZoom
+              zoomMargin={20}
+              isZoomed={isZoomedIndex[marker[0].slug]}
+              onZoomChange={handleZoomChange(shouldZoom, marker[0].slug)}
+              // ZoomContent={<CustomZoomContent text="red" />}
+              // zoomImg={<img src={marker[0].artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl} />}
+              
+            >
+              <img 
+                src={marker[0].artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl} 
                 width={100 * marker[0].artworkFields.proportion}
                 height={100}
-            />
-            <div 
+              />
+              {/* <Image
+                  src={marker[0].artworkFields.artworkImage?.mediaDetails.sizes[0].sourceUrl}
+                  alt={`thumbnail image of ${marker[0].title}`}
+                  width={100 * marker[0].artworkFields.proportion}
+                  height={100}
+              /> */}
+            </ControlledZoom>
+            {/* <div 
               className="map-single-pop-overlay"
               style={{
                 width: 100 * marker[0].artworkFields.proportion,
                 height: 100
-              }}  
-            >
+              }}
+              onClick={() => {
+                console.log(marker, " clicked")
+                setCurrentImageEnlarge(marker[0].slug)
+              }}
+            > */}
               {/* <p>{t('about')}</p> */}
-              <p>click to view larger</p>
-            </div>
-            <p>{marker[0].title}</p>
+              {/* <p>click to view larger</p> */}
+              {/* <Enlarge /> */}
+            {/* </div>
+            <p>{marker[0].title}</p> */}
+            {/* {currentImageEnlarge === marker[0].slug && (
+              <Zoom>
+              <div 
+                className="map-pop-enlarge-container"
+                style={{
+                  width: 100 * marker[0].artworkFields.proportion,
+                  height: 100
+                }}
+                onClick={() => setCurrentImageEnlarge('')}  
+              >
+                <Image
+                  src={marker[0].artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl}
+                  alt={`thumbnail image of ${marker[0].title}`}
+                  width={100 * marker[0].artworkFields.proportion}
+                  height={100}
+                />
+              </div>
+              </Zoom>
+            )} */}
           </div>
         </Popup>
       )}
     </div>
-  ), [singleMarkers, history.popupOpen]))
+  )}, [singleMarkers, history.popupOpen]))
 
   const getAllMarkerWidths = markers => {
     var allWidths = 0
@@ -207,7 +258,7 @@ const Map = ({ lng }) => {
           <div 
             className="map-pop-multiple-container"
             style={{
-              width: 100 * markers[0].artworkFields.proportion
+              width: 100 * markers[markersIndex[i]].artworkFields.proportion
             }}   
           >
             <div 
@@ -283,7 +334,8 @@ const Map = ({ lng }) => {
                       className="map-pop-multiple-art"
                       style={{
                         width: 100 * mark.artworkFields.proportion,
-                      }}  
+                      }}
+                      key={mark.slug}
                     >
                       <Image
                           src={mark.artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl}
@@ -296,10 +348,14 @@ const Map = ({ lng }) => {
                         style={{
                           width: 100 * mark.artworkFields.proportion,
                           height: 100
-                        }}  
+                        }}
+                        onClick={() => {
+                          console.log(mark, " clicked")
+                        }}
                       >
                         {/* <p>{t('about')}</p> */}
-                        <p>click to view larger</p>
+                        {/* <p>click to view larger</p> */}
+                        <Enlarge />
                       </div>
                       <p>{mark.title}</p>
                     </div>
@@ -311,8 +367,12 @@ const Map = ({ lng }) => {
                   return (
                     <div 
                       className="map-pop-multiple-art"
+                      key={mark.slug}
                       style={{
                         width: 100 * mark.artworkFields.proportion,
+                      }}
+                      onClick={() => {
+                        console.log(" clicked")
                       }}
                     >
                       <Image
@@ -326,10 +386,14 @@ const Map = ({ lng }) => {
                           style={{
                             width: 100 * mark.artworkFields.proportion,
                             height: 100
-                          }}  
+                          }}
+                          onClick={() => {
+                            console.log(mark, " clicked")
+                          }}
                         >
                           {/* <p>{t('about')}</p> */}
-                          <p>click to view larger</p>
+                          {/* <p>click to view larger</p> */}
+                          <Enlarge />
                         </div>
                       <p>{mark.title}</p>
                     </div>
@@ -344,9 +408,7 @@ const Map = ({ lng }) => {
    ), [multipleMarkers, history.popupOpen, markersIndex]))
 
    useEffect(() => {
-    // setMarkersIndex([])
     // if (markersIndex.length === 0 || history.popupOpen.length > 0) {
-      console.log("new markers index")
       setMarkersIndex([])
       setMarkersLeftArray([])
       multipleMarkers.map(() => {
@@ -385,6 +447,7 @@ const Map = ({ lng }) => {
             {singleArtMarkers}
             {multipleArtMarkers}
           </MapBox>
+          {/* <FilterTab lng={lng} /> */}
           <MapNav lng={lng} />
       </div>
     )

@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic'
 
 import List from '@/components/List'
 import Loader from '@/components/Loader'
+import FilterTab from '@/components/FilterTab'
 // import TheMap from './Map'
 const Map = dynamic(() => import('@/components/Map'), {
     ssr: false
@@ -55,6 +56,7 @@ const Artworks = ({ lng, artworks }) => {
                 <Loader />
             ) : (
                 <>
+                    {/* <FilterTab lng={lng} /> */}
                     {history.viewMap ? (
                         <Map lng={lng} />
                     ) : (
