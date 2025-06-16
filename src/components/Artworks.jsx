@@ -14,6 +14,7 @@ const Map = dynamic(() => import('@/components/Map'), {
 const Artworks = ({ lng, artworks }) => {
     const [history, setHistory] = useContext(HistoryContext)
     console.log(artworks)
+    console.log(history)
 
     useEffect(() => {
         if (history.original.length === 0) {
@@ -27,7 +28,7 @@ const Artworks = ({ lng, artworks }) => {
 
     return (
         <section className="artworks-container">
-            {history.filtered.length !== 0 ? (
+            {history.filtered.length === 0 ? (
                 <Loader />
             ) : (
                 <>
