@@ -30,7 +30,9 @@ const HistoryProvider = ({ children }) => {
         mapNavKey: [],
         mapPointScale: interpolate(12, 0, 23, 0, 2),
         currentMapNavIndex: 0,
-        mapNavHidden: false
+        mapNavHidden: false,
+        // popup
+        popupOpen: true
     })
 
     useEffect(() => {

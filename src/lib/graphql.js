@@ -2,7 +2,7 @@ import { gql } from "graphql-request"
 
 export const getAllArtwork = `
     query getAllArtwork {
-        allArtwork(first: 1000, where: {categoryName: "A Colorful History"}) {
+        allArtwork(first: 1000) {
             nodes {
                 slug
                 artworkFields {
@@ -13,7 +13,7 @@ export const getAllArtwork = `
                     }
                     artworkImage {
                         mediaDetails {
-                        sizes(include: [MEDIUM, LARGE, THUMBNAIL]) {
+                            sizes(include: [MEDIUM, LARGE, THUMBNAIL]) {
                                 sourceUrl
                                 height
                                 width
@@ -40,15 +40,14 @@ export const getAllArtwork = `
                     year
                 }
                 title(format: RENDERED)
+                content(format: RENDERED)
                 databaseId
                 id
                 date
                 featuredImage {
                     node {
-                        sizes
-                        srcSet
                         sourceUrl
-                        uri
+                        altText
                     }
                 }
             }

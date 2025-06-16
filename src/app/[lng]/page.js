@@ -36,7 +36,7 @@ const Home = async ({ params: { lng} }) => {
             <Artworks 
               artworks={artwork}
               lng={lng}  
-            /> 
+            />
     </section>
   )
 }

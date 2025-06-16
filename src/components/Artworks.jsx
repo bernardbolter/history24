@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic'
 import List from '@/components/List'
 import Loader from '@/components/Loader'
 import FilterTab from '@/components/FilterTab'
+import Popup from '@/components/Popup'
 // import TheMap from './Map'
 const Map = dynamic(() => import('@/components/Map'), {
     ssr: false
@@ -34,6 +35,7 @@ const Artworks = ({ lng, artworks }) => {
  
         if (history.original.length === 0) {
             const lessArt = []
+            console.log("in artworks: ", artworks)
             artworks.map(artwork => {
                 if (artwork.artworkFields.lat) {
                     lessArt.push(artwork)
@@ -56,6 +58,7 @@ const Artworks = ({ lng, artworks }) => {
                 <Loader />
             ) : (
                 <>
+                    {history.popupOpen && <Popup lng={lng} />}
                     {/* <FilterTab lng={lng} /> */}
                     {history.viewMap ? (
                         <Map lng={lng} />
