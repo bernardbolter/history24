@@ -14,7 +14,7 @@ const Nav = ({ lng }) => {
         <section className="nav-container">
             <button
                 className={history.navOpen ? 'nav-button nav-button-open' : 'nav-button'}
-                onClick={() => setHistory(state => ({ ...state, navOpen: ~state.navOpen }))}
+                onClick={() => setHistory(state => ({ ...state, navOpen: !state.navOpen }))}
                 aria-label="Menu"
                 aria-controls="navigation"
             >

@@ -1,32 +1,44 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import acceptLanguage from 'accept-language'
+import { fallbackLng, languages, cookieName } from './app/i18n/settings'
+
+acceptLanguage.languages(languages)
 
 export async function middleware(req: NextRequest) {
+  // Authentication handling
   const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  // Internationalization handling
+  let lng: string | null = null
+  if (req.cookies.has(cookieName)) lng = acceptLanguage.get(req.cookies.get(cookieName)?.value)
+  if (!lng) lng = acceptLanguage.get(req.headers.get('Accept-Language'))
+  if (!lng) lng = fallbackLng
 
-  // If there's no session and the user is trying to access a protected route
-  if (!session && req.nextUrl.pathname.startsWith('/dashboard')) {
-    const redirectUrl = req.nextUrl.clone()
-    redirectUrl.pathname = '/login'
-    return NextResponse.redirect(redirectUrl)
+  // Redirect if lng in path is not supported
+  if (
+    !languages.some(loc => req.nextUrl.pathname.startsWith(`/${loc}`)) &&
+    !req.nextUrl.pathname.startsWith('/_next') &&
+    !req.nextUrl.pathname.startsWith('/dashboard') &&
+    !req.nextUrl.pathname.startsWith('/login') &&
+    !req.nextUrl.pathname.startsWith('/signup')
+  ) {
+    return NextResponse.redirect(new URL(`/${lng}${req.nextUrl.pathname}`, req.url))
   }
 
-  // If there's a session and the user is trying to access auth pages
-  if (session && (req.nextUrl.pathname.startsWith('/login') || req.nextUrl.pathname.startsWith('/signup'))) {
-    const redirectUrl = req.nextUrl.clone()
-    redirectUrl.pathname = '/dashboard'
-    return NextResponse.redirect(redirectUrl)
+  if (req.headers.has('referer')) {
+    const refererUrl = new URL(req.headers.get('referer') || '')
+    const lngInReferer = languages.find((l) => refererUrl.pathname.startsWith(`/${l}`))
+    const response = NextResponse.next()
+    if (lngInReferer) response.cookies.set(cookieName, lngInReferer)
+    return response
   }
 
   return res
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/signup'],
+  matcher: [
+    '/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js).*)'
+  ],
 } 

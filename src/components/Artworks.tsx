@@ -2,7 +2,8 @@
 
 import { useContext, useEffect, useState } from 'react'
 import { HistoryContext } from '@/providers/HistoryProvider'
-import { useTranslation } from '@/app/i18n'
+import { useTranslation } from '@/app/i18n/client'
+import { Artwork } from '@/lib/graphql'
 
 import dynamic from 'next/dynamic'
 
@@ -10,17 +11,22 @@ import List from '@/components/List'
 import Loader from '@/components/Loader'
 import FilterTab from '@/components/FilterTab'
 import Popup from '@/components/Popup'
-// import TheMap from './Map'
+
+// Dynamic import of Map component to avoid SSR issues
 const Map = dynamic(() => import('@/components/Map'), {
     ssr: false
 })
 
-const Artworks = ({ lng, artworks }) => {
+interface ArtworksProps {
+    lng: string;
+    artworks: Artwork[];
+}
+
+const Artworks = ({ lng, artworks }: ArtworksProps) => {
     const [history, setHistory] = useContext(HistoryContext)
     const { t } = useTranslation(lng, 'common')
-    const [loaded, setLoaded] = useState(false)
-    const [error, setError] = useState(false)
-    // console.log(artworks)
+    const [loaded, setLoaded] = useState<boolean>(false)
+    const [error, setError] = useState<boolean>(false)
 
     useEffect(() => {
         if (artworks.length === 0) {
@@ -34,9 +40,9 @@ const Artworks = ({ lng, artworks }) => {
         }
  
         if (history.original.length === 0) {
-            const lessArt = []
+            const lessArt: Artwork[] = []
             console.log("in artworks: ", artworks)
-            artworks.map(artwork => {
+            artworks.forEach(artwork => {
                 if (artwork.artworkFields.lat) {
                     lessArt.push(artwork)
                 }
@@ -47,9 +53,7 @@ const Artworks = ({ lng, artworks }) => {
                 filtered: lessArt
             }))
         }
-    }, [artworks, history.orginial])
-
-    // console.log("fitlered: ", history.filtered)
+    }, [artworks, history.original, setHistory])
 
     return (
         <section className="artworks-container">
@@ -59,7 +63,6 @@ const Artworks = ({ lng, artworks }) => {
             ) : (
                 <>
                     {history.popupOpen && <Popup lng={lng} />}
-                    {/* <FilterTab lng={lng} /> */}
                     {history.viewMap ? (
                         <Map lng={lng} />
                     ) : (

@@ -5,38 +5,42 @@ import Nav from '@/components/Nav'
 import Logo from '@/components/Logo'
 import FilterTab from '@/components/FilterTab'
 
-import { getAllArtwork } from '@/lib/graphql'
+import { getAllArtwork, Artwork, ArtworkResponse } from '@/lib/graphql'
 
-async function getArtwork() {
-
+async function getArtwork(): Promise<Artwork[]> {
   const res = await fetch("https://digitalcityseries.com/bolter/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ query: getAllArtwork }),
-    next: {next: { revalidate: 100 }}
+    next: { revalidate: 100 }
   })
 
   const data = await res.json()
-  // console.log(data)
-
+  
   return data.data.allArtwork.nodes
 }
 
-const Home = async ({ params: { lng} }) => {
-  const { t } = useTranslation(lng, 'common')
+interface HomeProps {
+  params: {
+    lng: string;
+  };
+}
+
+const Home = async ({ params: { lng } }: HomeProps) => {
+  const { t } = await useTranslation(lng, 'common')
   const artwork = await getArtwork()
 
   return (
     <section className="home-container">
-            <Nav lng={lng} />
-            <Logo lng={lng} />
-            <FilterTab lng={lng} />
-            <Artworks 
-              artworks={artwork}
-              lng={lng}  
-            />
+      <Nav lng={lng} />
+      <Logo lng={lng} />
+      <FilterTab lng={lng} />
+      <Artworks 
+        artworks={artwork}
+        lng={lng}  
+      />
     </section>
   )
 }
