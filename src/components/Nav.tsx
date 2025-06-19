@@ -4,6 +4,7 @@ import { useContext } from 'react'
 import { HistoryContext } from '@/providers/HistoryProvider'
 import { useTranslation } from "@/app/i18n/client"
 import Link from 'next/link'
+import CartIcon from './CartIcon'
 
 const Nav = ({ lng }) => {
     const [history, setHistory] = useContext(HistoryContext)
@@ -12,17 +13,20 @@ const Nav = ({ lng }) => {
 
     return (
         <section className="nav-container">
-            <button
-                className={history.navOpen ? 'nav-button nav-button-open' : 'nav-button'}
-                onClick={() => setHistory(state => ({ ...state, navOpen: !state.navOpen }))}
-                aria-label="Menu"
-                aria-controls="navigation"
-            >
-                <span />
-                <span />
-                <span />
-                <span />
-            </button>
+            <div className="nav-top-controls">
+                <button
+                    className={history.navOpen ? 'nav-button nav-button-open' : 'nav-button'}
+                    onClick={() => setHistory(state => ({ ...state, navOpen: !state.navOpen }))}
+                    aria-label="Menu"
+                    aria-controls="navigation"
+                >
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                </button>
+                <CartIcon lng={lng} />
+            </div>
             <nav
                 id="navigation"
                 className={history.navOpen ? 'nav-menu nav-menu-open' : 'nav-menu'}
@@ -36,6 +40,9 @@ const Nav = ({ lng }) => {
                             <Link
                                 href="/prints"
                             >&rarr; {t('artPrints')}</Link>
+                            <Link
+                                href={`/${lng}/shop`}
+                            >&rarr; {t('shop')}</Link>
                         </div>
                         <p
                             onClick={() => setHistory(state => ({ ...state, viewGates: true  }))}

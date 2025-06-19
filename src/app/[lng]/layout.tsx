@@ -3,6 +3,7 @@ import { dir } from "i18next"
 import { languages } from "../i18n/settings"
 
 import HistoryProvider from "@/providers/HistoryProvider"
+import CartProvider from "@/providers/CartProvider"
 
 import "@/style/index.scss"
 
@@ -35,7 +36,9 @@ export default function RootLayout({
     <html lang={lng} dir={dir(lng)}>
       <body className={barlow.className}>
         <HistoryProvider>
-          {children}
+          <CartProvider>
+            {children}
+          </CartProvider>
         </HistoryProvider>
       </body>
     </html>

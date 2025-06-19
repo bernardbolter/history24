@@ -8,7 +8,7 @@ import FilterTab from '@/components/FilterTab'
 import { getAllArtwork, Artwork, ArtworkResponse } from '@/lib/graphql'
 
 async function getArtwork(): Promise<Artwork[]> {
-  const res = await fetch("https://digitalcityseries.com/bolter/graphql", {
+  const res = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

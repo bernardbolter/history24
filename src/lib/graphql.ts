@@ -1,5 +1,3 @@
-import { gql } from "graphql-request"
-
 export const getAllArtwork = `
     query getAllArtwork {
         allArtwork(first: 1000) {
@@ -46,6 +44,177 @@ export const getAllArtwork = `
                 date
                 featuredImage {
                     node {
+                        sourceUrl
+                        altText
+                    }
+                }
+            }
+        }
+    }
+`
+
+export const getAllProducts = `
+    query getAllProducts {
+        products(first: 100) {
+            nodes {
+                id
+                databaseId
+                name
+                slug
+                type
+                status
+                featured
+                description
+                shortDescription
+                sku
+                onSale
+                dateOnSaleFrom
+                dateOnSaleTo
+                totalSales
+                price
+                regularPrice
+                salePrice
+                taxStatus
+                taxClass
+                manageStock
+                stockQuantity
+                stockStatus
+                backorders
+                soldIndividually
+                weight
+                length
+                width
+                height
+                reviewCount
+                averageRating
+                purchasable
+                purchaseNote
+                catalogVisibility
+                dateCreated
+                dateModified
+                image {
+                    id
+                    sourceUrl
+                    altText
+                }
+                galleryImages {
+                    nodes {
+                        id
+                        sourceUrl
+                        altText
+                    }
+                }
+                productCategories {
+                    nodes {
+                        id
+                        name
+                        slug
+                    }
+                }
+                productTags {
+                    nodes {
+                        id
+                        name
+                        slug
+                    }
+                }
+            }
+        }
+    }
+`
+
+export const getProductCategories = `
+    query getProductCategories {
+        productCategories(first: 100) {
+            nodes {
+                id
+                databaseId
+                name
+                slug
+                description
+                image {
+                    id
+                    sourceUrl
+                    altText
+                }
+                count
+            }
+        }
+    }
+`
+
+export const getProductBySlug = `
+    query getProductBySlug($slug: ID!) {
+        product(id: $slug, idType: SLUG) {
+            id
+            databaseId
+            name
+            slug
+            type
+            status
+            featured
+            description
+            shortDescription
+            sku
+            onSale
+            dateOnSaleFrom
+            dateOnSaleTo
+            totalSales
+            price
+            regularPrice
+            salePrice
+            taxStatus
+            taxClass
+            manageStock
+            stockQuantity
+            stockStatus
+            backorders
+            soldIndividually
+            weight
+            length
+            width
+            height
+            reviewCount
+            averageRating
+            purchasable
+            purchaseNote
+            catalogVisibility
+            dateCreated
+            dateModified
+            image {
+                id
+                sourceUrl
+                altText
+            }
+            galleryImages {
+                nodes {
+                    id
+                    sourceUrl
+                    altText
+                }
+            }
+            productCategories {
+                nodes {
+                    id
+                    name
+                    slug
+                }
+            }
+            productTags {
+                nodes {
+                    id
+                    name
+                    slug
+                }
+            }
+            related {
+                nodes {
+                    id
+                    name
+                    slug
+                    price
+                    image {
+                        id
                         sourceUrl
                         altText
                     }
@@ -120,5 +289,117 @@ export interface Artwork {
 export interface ArtworkResponse {
     allArtwork: {
         nodes: Artwork[];
+    };
+}
+
+// TypeScript interfaces for WooCommerce data
+export interface ProductImage {
+    id: string;
+    sourceUrl: string;
+    altText: string;
+}
+
+export interface ProductCategoryNode {
+    id: string;
+    name: string;
+    slug: string;
+}
+
+export interface ProductTagNode {
+    id: string;
+    name: string;
+    slug: string;
+}
+
+export interface ProductCategories {
+    nodes: ProductCategoryNode[];
+}
+
+export interface ProductTags {
+    nodes: ProductTagNode[];
+}
+
+export interface GalleryImages {
+    nodes: ProductImage[];
+}
+
+export interface RelatedProductNode {
+    id: string;
+    name: string;
+    slug: string;
+    price: string;
+    image: ProductImage;
+}
+
+export interface RelatedProducts {
+    nodes: RelatedProductNode[];
+}
+
+export interface Product {
+    id: string;
+    databaseId: number;
+    name: string;
+    slug: string;
+    type: string;
+    status: string;
+    featured: boolean;
+    description: string;
+    shortDescription: string;
+    sku: string;
+    onSale: boolean;
+    dateOnSaleFrom: string | null;
+    dateOnSaleTo: string | null;
+    totalSales: number;
+    price: string;
+    regularPrice: string;
+    salePrice: string;
+    taxStatus: string;
+    taxClass: string;
+    manageStock: boolean;
+    stockQuantity: number | null;
+    stockStatus: string;
+    backorders: string;
+    soldIndividually: boolean;
+    weight: string;
+    length: string;
+    width: string;
+    height: string;
+    reviewCount: number;
+    averageRating: string;
+    purchasable: boolean;
+    purchaseNote: string;
+    catalogVisibility: string;
+    dateCreated: string;
+    dateModified: string;
+    image: ProductImage;
+    galleryImages: GalleryImages;
+    productCategories: ProductCategories;
+    productTags: ProductTags;
+    related?: RelatedProducts;
+}
+
+export interface ProductsResponse {
+    products: {
+        nodes: Product[];
+    };
+}
+
+export interface ProductResponse {
+    product: Product;
+}
+
+export interface ProductCategory {
+    id: string;
+    databaseId: number;
+    name: string;
+    slug: string;
+    description: string;
+    image: ProductImage | null;
+    count: number;
+}
+
+export interface ProductCategoriesResponse {
+    productCategories: {
+        nodes: ProductCategory[];
     };
 }
