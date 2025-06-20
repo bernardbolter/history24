@@ -9,11 +9,11 @@ import dynamic from 'next/dynamic'
 
 import List from '@/components/List'
 import Loader from '@/components/Loader'
-import FilterTab from '@/components/FilterTab'
-import Popup from '@/components/Popup'
+import FilterTab from '@/components/Navigation/FilterTab'
+import Popup from '@/components/Map/Popup'
 
 // Dynamic import of Map component to avoid SSR issues
-const Map = dynamic(() => import('@/components/Map'), {
+const Map = dynamic(() => import('@/components/Map/Map'), {
     ssr: false
 })
 

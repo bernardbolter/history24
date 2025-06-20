@@ -8,7 +8,7 @@ import Filter from "@/svg/filter"
 import Sort from "@/svg/sort"
 import ToggleArrow from "@/svg/toggleArrow"
 
-import FilterDot from "./FilterDot"
+import FilterDot from "../Map/FilterDot"
 
 import variables from '@/style/vars.module.scss'
 

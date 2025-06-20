@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { HistoryContext } from '@/providers/HistoryProvider'
 import { useTranslation } from "@/app/i18n/client"
 import Link from 'next/link'
-import CartIcon from './CartIcon'
+import CartIcon from '../Shop/CartIcon'
 
 const Nav = ({ lng }) => {
     const [history, setHistory] = useContext(HistoryContext)

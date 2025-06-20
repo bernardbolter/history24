@@ -71,9 +71,31 @@ export const getAllProducts = `
                 dateOnSaleFrom
                 dateOnSaleTo
                 totalSales
-                price
-                regularPrice
-                salePrice
+                ... on SimpleProduct {
+                    price
+                    regularPrice
+                    salePrice
+                }
+                ... on VariableProduct {
+                    price
+                    regularPrice
+                    salePrice
+                }
+                ... on ExternalProduct {
+                    price
+                    regularPrice
+                    salePrice
+                }
+                ... on GroupProduct {
+                    price
+                    regularPrice
+                    salePrice
+                }
+                ... on ProductWithPricing {
+                    price
+                    regularPrice
+                    salePrice
+                }
                 taxStatus
                 taxClass
                 manageStock
@@ -160,9 +182,31 @@ export const getProductBySlug = `
             dateOnSaleFrom
             dateOnSaleTo
             totalSales
-            price
-            regularPrice
-            salePrice
+            ... on SimpleProduct {
+                price
+                regularPrice
+                salePrice
+            }
+            ... on VariableProduct {
+                price
+                regularPrice
+                salePrice
+            }
+            ... on ExternalProduct {
+                price
+                regularPrice
+                salePrice
+            }
+            ... on GroupProduct {
+                price
+                regularPrice
+                salePrice
+            }
+            ... on ProductWithPricing {
+                price
+                regularPrice
+                salePrice
+            }
             taxStatus
             taxClass
             manageStock
@@ -212,7 +256,21 @@ export const getProductBySlug = `
                     id
                     name
                     slug
-                    price
+                    ... on SimpleProduct {
+                        price
+                    }
+                    ... on VariableProduct {
+                        price
+                    }
+                    ... on ExternalProduct {
+                        price
+                    }
+                    ... on GroupProduct {
+                        price
+                    }
+                    ... on ProductWithPricing {
+                        price
+                    }
                     image {
                         id
                         sourceUrl

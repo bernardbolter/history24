@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { HistoryContext } from "@/providers/HistoryProvider"
 import { Artwork } from "@/lib/graphql"
 
-import ArtworkComponent from "@/components/Artwork"
+import ArtworkComponent from "@/components/Artworks/Artwork"
 
 interface ArtworkListProps {
     lng: string;

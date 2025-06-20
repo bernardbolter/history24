@@ -17,7 +17,7 @@ import Enlarge from '@/svg/enlarge'
 // import Zoom from 'react-medium-image-zoom'
 import { Controlled as ControlledZoom } from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
-import CustomZoomContent from './CustomZoomContent'
+import CustomZoomContent from '../Artworks/CustomZoomContent'
 
 import { interpolate } from '@/helpers'
 
@@ -115,8 +115,7 @@ const Map = ({ lng }) => {
     console.log("in zoom: " , shouldZoom, id)
   }, [])
 
-  const singleArtMarkers = useMemo(() => singleMarkers.map(marker => {
-    return (
+  const singleArtMarkers = useMemo(() => singleMarkers.map(marker => (
     <div 
       className="map-marker-container"
       key={marker[0].slug}
@@ -145,9 +144,7 @@ const Map = ({ lng }) => {
             <ControlledZoom
               zoomMargin={20}
               isZoomed={isZoomedIndex[marker[0].slug]}
-              onZoomChange={handleZoomChange(shouldZoom, marker[0].slug)}
-              // ZoomContent={<CustomZoomContent text="red" />}
-              // zoomImg={<img src={marker[0].artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl} />}
+              onZoomChange={(shouldZoom) => handleZoomChange(shouldZoom, marker[0].slug)}
               
             >
               <img 
@@ -155,59 +152,18 @@ const Map = ({ lng }) => {
                 width={100 * marker[0].artworkFields.proportion}
                 height={100}
               />
-              {/* <Image
-                  src={marker[0].artworkFields.artworkImage?.mediaDetails.sizes[0].sourceUrl}
-                  alt={`thumbnail image of ${marker[0].title}`}
-                  width={100 * marker[0].artworkFields.proportion}
-                  height={100}
-              /> */}
             </ControlledZoom>
-            {/* <div 
-              className="map-single-pop-overlay"
-              style={{
-                width: 100 * marker[0].artworkFields.proportion,
-                height: 100
-              }}
-              onClick={() => {
-                console.log(marker, " clicked")
-                setCurrentImageEnlarge(marker[0].slug)
-              }}
-            > */}
-              {/* <p>{t('about')}</p> */}
-              {/* <p>click to view larger</p> */}
-              {/* <Enlarge /> */}
-            {/* </div>
-            <p>{marker[0].title}</p> */}
-            {/* {currentImageEnlarge === marker[0].slug && (
-              <Zoom>
-              <div 
-                className="map-pop-enlarge-container"
-                style={{
-                  width: 100 * marker[0].artworkFields.proportion,
-                  height: 100
-                }}
-                onClick={() => setCurrentImageEnlarge('')}  
-              >
-                <Image
-                  src={marker[0].artworkFields.artworkImage?.mediaDetails.sizes[1].sourceUrl}
-                  alt={`thumbnail image of ${marker[0].title}`}
-                  width={100 * marker[0].artworkFields.proportion}
-                  height={100}
-                />
-              </div>
-              </Zoom>
-            )} */}
           </div>
         </Popup>
       )}
     </div>
-  )}, [singleMarkers, history.popupOpen]))
+  )), [singleMarkers, history.popupOpen, isZoomedIndex])
 
-  const getAllMarkerWidths = markers => {
-    var allWidths = 0
-    markers.map(marker => {
-      allWidths = allWidths + (100 * marker.artworkFields.proportion)
-    })
+  const getAllMarkerWidths = (markers: { artworkFields: { proportion: number } }[]) => {
+    let allWidths = 0;
+    markers.forEach(marker => {
+      allWidths += 100 * marker.artworkFields.proportion;
+    });
     return allWidths
   }
 
@@ -269,7 +225,6 @@ const Map = ({ lng }) => {
               }
               onClick={() => {
                 if (markersIndex[i] > 0) {
-                  // console.log("click left: ", i, markersIndex[i], markers.length)
                   const newMarkersIndex = [...markersIndex]
                   newMarkersIndex[i] = markersIndex[i] - 1
                   setMarkersIndex(newMarkersIndex)
@@ -297,11 +252,9 @@ const Map = ({ lng }) => {
                 : "map-marker-right-container marker-nav-disabled"
               }
               onClick={() => {
-                // check if images should scroll
                 if (markersIndex[i] < (markers.length - 1)) {
                   const newMarkersIndex = [...markersIndex]
                   newMarkersIndex[i] = markersIndex[i] + 1
-                  // update the index in the marker index array
                   setMarkersIndex(newMarkersIndex)
                   const newMarkersLeftArray = [...markersLeftArray]
                   var newMarkerLeft = 0
@@ -353,8 +306,6 @@ const Map = ({ lng }) => {
                           console.log(mark, " clicked")
                         }}
                       >
-                        {/* <p>{t('about')}</p> */}
-                        {/* <p>click to view larger</p> */}
                         <Enlarge />
                       </div>
                       <p>{mark.title}</p>
@@ -391,8 +342,6 @@ const Map = ({ lng }) => {
                             console.log(mark, " clicked")
                           }}
                         >
-                          {/* <p>{t('about')}</p> */}
-                          {/* <p>click to view larger</p> */}
                           <Enlarge />
                         </div>
                       <p>{mark.title}</p>
@@ -405,7 +354,7 @@ const Map = ({ lng }) => {
         </Popup>
       )}
     </div>
-   ), [multipleMarkers, history.popupOpen, markersIndex]))
+  )), [multipleMarkers, history.popupOpen, markersIndex]);
 
    useEffect(() => {
     // if (markersIndex.length === 0 || history.popupOpen.length > 0) {
@@ -420,9 +369,8 @@ const Map = ({ lng }) => {
 
   // fly to function
   useEffect(() => {
-    if (history.currentMapArtwork.length !== 0) {
+    if (history.currentMapArtwork) {
       if (mapRef.current) {
-        // console.log(mapRef.current)
         mapRef?.current?.flyTo({ center: [history.currentMapArtwork.artworkFields.lng, history.currentMapArtwork.artworkFields.lat] })
       }
     }

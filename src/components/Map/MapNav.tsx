@@ -1,11 +1,15 @@
 import { useContext, useMemo } from "react"
 import { HistoryContext } from "@/providers/HistoryProvider"
 
-import MapNavImage from '@/components/MapNavImage'
+import MapNavImage from '@/components/Map/MapNavImage'
 
 import RightArrow from "@/svg/rightArrow"
 
-const MapNav = () => {
+interface MapNavProps {
+    lng: number; // Use the appropriate type for lng
+  }
+
+const MapNav: React.FC<MapNavProps> = ({ lng}) => {
     const [history, setHistory] = useContext(HistoryContext);
 
     const ARTWORK_SPACING = 5; // pixels between artworks

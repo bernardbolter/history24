@@ -1,9 +1,9 @@
 import { useTranslation } from '../i18n'
 
-import Artworks from '@/components/Artworks'
-import Nav from '@/components/Nav'
-import Logo from '@/components/Logo'
-import FilterTab from '@/components/FilterTab'
+import Artworks from '@/components/Artworks/Artworks'
+import Nav from '@/components/Navigation/Nav'
+import Logo from '@/components/Navigation/Logo'
+import FilterTab from '@/components/Navigation/FilterTab'
 
 import { getAllArtwork, Artwork, ArtworkResponse } from '@/lib/graphql'
 
