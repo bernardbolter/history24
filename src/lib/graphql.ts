@@ -318,7 +318,7 @@ export interface ArtworkFields {
     metadescription: string;
     metakeywords: string;
     orientation: string;
-    proportion: string;
+    proportion: number;
     series: string;
     size: string;
     style: string;

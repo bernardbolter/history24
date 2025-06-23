@@ -9,8 +9,7 @@ import dynamic from 'next/dynamic'
 
 import List from '@/components/List'
 import Loader from '@/components/Loader'
-import FilterTab from '@/components/Navigation/FilterTab'
-import Popup from '@/components/Map/Popup'
+import ArtworkAnimation from '@/components/Animation/ArtworkAnimation'
 
 // Dynamic import of Map component to avoid SSR issues
 const Map = dynamic(() => import('@/components/Map/Map'), {
@@ -25,8 +24,15 @@ interface ArtworksProps {
 const Artworks = ({ lng, artworks }: ArtworksProps) => {
     const [history, setHistory] = useContext(HistoryContext)
     const { t } = useTranslation(lng, 'common')
-    const [loaded, setLoaded] = useState<boolean>(false)
+    const [loaded, setLoaded] = useState<boolean>(history.loaded || false)
     const [error, setError] = useState<boolean>(false)
+
+    // Sync loaded state with history
+    useEffect(() => {
+        if (history.loaded && !loaded) {
+            setLoaded(true)
+        }
+    }, [history.loaded, loaded])
 
     useEffect(() => {
         if (artworks.length === 0) {
@@ -36,6 +42,8 @@ const Artworks = ({ lng, artworks }: ArtworksProps) => {
                 setError(true)
             } else {
                 setLoaded(true)
+                // Also update history context
+                setHistory(state => ({ ...state, loaded: true }))
             }
         }
  
@@ -55,6 +63,8 @@ const Artworks = ({ lng, artworks }: ArtworksProps) => {
         }
     }, [artworks, history.original, setHistory])
 
+    console.log('Artworks render - loaded:', loaded, 'viewMap:', history.viewMap, 'animation state:', history.animation)
+
     return (
         <section className="artworks-container">
             {!loaded 
@@ -62,12 +72,12 @@ const Artworks = ({ lng, artworks }: ArtworksProps) => {
                 <Loader />
             ) : (
                 <>
-                    {history.popupOpen && <Popup lng={lng} />}
                     {history.viewMap ? (
                         <Map lng={lng} />
                     ) : (
                         <List lng={lng} />
                     )}
+                    <ArtworkAnimation lng={lng} />
                 </>
             )}
         </section>

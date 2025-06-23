@@ -16,37 +16,16 @@ import { Controlled as ControlledZoom } from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
 import { interpolate } from '@/helpers'
-import { triggerArtworkAnimation } from '@/helpers/animation'
 
 // Types for better type safety
 interface ArtworkFields {
   lat: number
   lng: number
   proportion: number
-  city?: string
-  country?: string
-  forsale?: boolean
-  height?: number
-  medium?: string
-  metadescription?: string
-  metakeywords?: string
-  orientation?: string
-  series?: string
-  size?: string
-  style?: string
-  width?: number
-  year?: string | number
-  artworklink?: {
-    url: string
-    title: string
-  }
   artworkImage?: {
     mediaDetails: {
-      sizes: Array<{ sourceUrl: string; width: number; height: number }>
-      width: number
-      height: number
+      sizes: Array<{ sourceUrl: string }>
     }
-    mediaItemUrl: string
   }
 }
 
@@ -54,16 +33,6 @@ interface Artwork {
   slug: string
   title: string
   artworkFields: ArtworkFields
-  content?: string
-  databaseId?: number
-  id?: string
-  date?: string
-  featuredImage?: {
-    node?: {
-      sourceUrl?: string
-      altText?: string
-    }
-  }
 }
 
 interface MarkerGroup {
@@ -101,7 +70,8 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
     )
 
     // Group by location
-    const locationGroups = new Map<string, Artwork[]>()
+   const locationGroups = new globalThis.Map<string, Artwork[]>()
+
     
     placedArtworks.forEach(artwork => {
       const locationKey = `${artwork.artworkFields.lat},${artwork.artworkFields.lng}`
@@ -130,10 +100,7 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
     })
     setMultipleMarkerIndices(newIndices)
 
-    // Close any existing popups when markers change to prevent duplicates
-    setHistory(state => ({ ...state, popupOpen: '' }))
-
-  }, [history.filtered, setHistory])
+  }, [history.filtered])
 
   // Handle zoom change for images
   const handleZoomChange = useCallback((shouldZoom: boolean, id: string) => {
@@ -203,11 +170,10 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
         anchor="bottom"
         onClick={(e) => {
           e.originalEvent.stopPropagation()
-          // Close any existing popup and open this one
           setHistory(state => ({ ...state, popupOpen: artwork.slug }))
         }}
       >
-        <MapPin artworkId={artwork.slug} />
+        <MapPin />
       </Marker>
       {history.popupOpen === artwork.slug && (
         <Popup
@@ -229,18 +195,6 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
                 alt={`Artwork: ${artwork.title}`}
                 width={100 * artwork.artworkFields.proportion}
                 height={100}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  triggerArtworkAnimation(
-                    artwork as any,
-                    e.currentTarget,
-                    setHistory,
-                    history.coords,
-                    history.zoomLevel,
-                    history.popupOpen
-                  )
-                }}
-                style={{ cursor: 'pointer' }}
               />
             </ControlledZoom>
           </div>
@@ -265,12 +219,10 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
           anchor="bottom"
           onClick={(e) => {
             e.originalEvent.stopPropagation()
-            const currentArtwork = getCurrentArtwork(group)
-            // Close any existing popup and open this one
-            setHistory(state => ({ ...state, popupOpen: currentArtwork.slug }))
+            setHistory(state => ({ ...state, popupOpen: group.artworks[0].slug }))
           }}
         >
-          <MapPin artworkId={currentArtwork.slug} />
+          <MapPin />
         </Marker>
         {shouldShowPopup(group.artworks) && (
           <Popup
@@ -317,7 +269,6 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
                       width: 100 * artwork.artworkFields.proportion,
                     }}
                     onClick={() => {
-                      console.log('clicked multiple')
                       if (artwork.slug !== history.popupOpen) {
                         setHistory(state => ({ ...state, popupOpen: artwork.slug }))
                       }
@@ -328,36 +279,12 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
                       alt={`thumbnail image of ${artwork.title}`}
                       width={100 * artwork.artworkFields.proportion}
                       height={100}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        triggerArtworkAnimation(
-                          artwork as any,
-                          e.currentTarget,
-                          setHistory,
-                          history.coords,
-                          history.zoomLevel,
-                          history.popupOpen
-                        )
-                      }}
-                      style={{ cursor: 'pointer' }}
                     />
                     <div 
                       className="map-pop-multiple-overlay"
                       style={{
                         width: 100 * artwork.artworkFields.proportion,
                         height: 100
-                      }}
-                      onClick={(e) => {
-                        console.log('clicked enlarge')
-                        e.stopPropagation()
-                        triggerArtworkAnimation(
-                          artwork as any,
-                          e.currentTarget,
-                          setHistory,
-                          history.coords,
-                          history.zoomLevel,
-                          history.popupOpen
-                        )
                       }}
                     >
                       <Enlarge />
@@ -409,10 +336,6 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
         mapStyle={`https://api.protomaps.com/styles/v5/grayscale/en.json?key=${process.env.NEXT_PUBLIC_PROTOMAPS}`}
         ref={mapRef}
         onZoom={onZoom}
-        onClick={() => {
-          // Close any open popup when clicking on empty map area
-          setHistory(state => ({ ...state, popupOpen: '' }))
-        }}
       >
         {markers}
       </LibreMap>

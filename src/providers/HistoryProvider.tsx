@@ -9,6 +9,30 @@ interface Coordinates {
   lng: number;
 }
 
+interface RectData {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+  bottom: number;
+  right: number;
+  x: number;
+  y: number;
+}
+
+interface AnimationState {
+  isAnimating: boolean;
+  isReversing: boolean;
+  sourceRect: RectData | null;
+  artwork: Artwork | null;
+  cameFromMap: boolean;
+  savedMapState: {
+    coords: Coordinates;
+    zoomLevel: number;
+    popupOpen: boolean | string;
+  } | null;
+}
+
 interface HistoryState {
   imageUrl: string;
   original: Artwork[];
@@ -32,6 +56,9 @@ interface HistoryState {
   mapPointScale: number;
   currentMapNavIndex: number;
   mapNavHidden: boolean;
+  loaded: boolean;
+  pinColors: Record<string, string>;
+  animation: AnimationState;
 }
 
 type HistoryContextType = [HistoryState, Dispatch<SetStateAction<HistoryState>>];
@@ -59,7 +86,17 @@ export const HistoryContext = createContext<HistoryContextType>([
     mapNavKey: [],
     mapPointScale: 0,
     currentMapNavIndex: 0,
-    mapNavHidden: false
+    mapNavHidden: false,
+    loaded: false,
+    pinColors: {},
+    animation: {
+      isAnimating: false,
+      isReversing: false,
+      sourceRect: null,
+      artwork: null,
+      cameFromMap: false,
+      savedMapState: null
+    }
   },
   () => {}
 ]);
@@ -93,6 +130,16 @@ const HistoryProvider = ({ children }: HistoryProviderProps) => {
     mapPointScale: interpolate(12, 0, 23, 0, 2),
     currentMapNavIndex: 0,
     mapNavHidden: false,
+    loaded: false,
+    pinColors: {},
+    animation: {
+      isAnimating: false,
+      isReversing: false,
+      sourceRect: null,
+      artwork: null,
+      cameFromMap: false,
+      savedMapState: null
+    }
   })
 
   useEffect(() => {

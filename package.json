@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.9.6",
-    "@maptiler/leaflet-maptilersdk": "^2.0.0",
-    "@maptiler/sdk": "^1.2.1",
+    "@vis.gl/react-maplibre": "^8.0.4",
     "accept-language": "^3.0.18",
     "framer-motion": "^11.0.8",
     "graphql": "^16.8.1",
@@ -20,23 +19,25 @@
     "i18next-browser-languagedetector": "^7.2.0",
     "i18next-resources-to-backend": "^1.2.0",
     "leaflet": "^1.9.4",
-    "mapbox-gl": "^3.7.0",
+    "maplibre-gl": "^5.6.0",
     "next": "^14.2.15",
     "react": "^18",
     "react-cookie": "^7.1.0",
     "react-dom": "^18",
     "react-i18next": "^14.1.0",
-    "react-leaflet": "^4.2.1",
-    "react-map-gl": "^7.1.7",
-    "react-mapbox-gl-spiderifier": "^1.12.0",
     "react-medium-image-zoom": "^5.2.11",
     "sass": "^1.71.1",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   },
   "devDependencies": {
-    "@types/node": "24.0.1",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "typescript": "5.8.3"
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "postcss": "^8"
   }
 }

@@ -14,9 +14,28 @@ const decideColor = variables => {
 }
 
 
-const MapPin = () => {
-    const [history] = useContext(HistoryContext)
-    const [pinColor] = useState(decideColor(variables))
+const MapPin = ({ artworkId }) => {
+    const [history, setHistory] = useContext(HistoryContext)
+    
+    // Get or generate consistent color for this artwork
+    const getPinColor = (id) => {
+        if (history.pinColors[id]) {
+            return history.pinColors[id]
+        }
+        
+        // Generate new color and store it
+        const newColor = decideColor(variables)
+        setHistory(state => ({
+            ...state,
+            pinColors: {
+                ...state.pinColors,
+                [id]: newColor
+            }
+        }))
+        return newColor
+    }
+    
+    const pinColor = getPinColor(artworkId)
 
     return (
         <svg 

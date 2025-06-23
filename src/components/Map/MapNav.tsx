@@ -6,7 +6,7 @@ import MapNavImage from '@/components/Map/MapNavImage'
 import RightArrow from "@/svg/rightArrow"
 
 interface MapNavProps {
-    lng: number; // Use the appropriate type for lng
+    lng: string;
   }
 
 const MapNav: React.FC<MapNavProps> = ({ lng}) => {
