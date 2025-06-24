@@ -1,0 +1,36 @@
+.artwork-container {
+    background: green
+}
+
+.artwork-single-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (min-width: $desktop) {
+        flex-direction: row;
+    }
+
+    .artwork-image {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            // Mobile styles: constrain to 90% width or height
+            max-width: 90%;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+
+            @media screen and (min-width: $desktop) {
+                // Desktop styles: 65% width or 90% height
+                max-width: 65%;
+                max-height: 90vh;
+            }
+        }
+    }
+}

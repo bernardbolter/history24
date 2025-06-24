@@ -1,6 +1,6 @@
 "use client"
 
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { HistoryContext } from '@/providers/HistoryProvider'
 import { returnToMap, resetAnimationState, triggerReturnAnimation } from '@/helpers/animation'
@@ -15,6 +15,7 @@ interface ArtworkProps {
 const Artwork = ({ artwork, lng }: ArtworkProps) => {
   const [history, setHistory] = useContext(HistoryContext)
   const router = useRouter()
+  console.log('artwork: ', artwork)
 
   // Debug: Log the animation state
   console.log('Artwork component - animation state:', history.animation)
@@ -54,6 +55,26 @@ const Artwork = ({ artwork, lng }: ArtworkProps) => {
     }
   }
 
+  const theStory = useMemo(() => {
+    if (lng === 'de') {
+      if (artwork.colorfulfields?.storyde) {
+        return {
+          __html: artwork.colorfulfields.storyde
+        }
+      } else {
+        return artwork.content || '';
+      }
+    } else {
+      if (artwork.colorfulfields?.storyen) {
+        return {
+          __html: artwork.colorfulfields.storyen
+        }
+      } else {
+        return artwork.content || '';
+      }
+    }
+  }, [artwork, lng])
+
   // Process the artwork image
   let mainImage = null
   if (artwork.artworkFields.artworkImage) {
@@ -82,9 +103,9 @@ const Artwork = ({ artwork, lng }: ArtworkProps) => {
   }
 
   return (
-    <div className="artwork-detail-container">
+    <div className="artwork-single-container">
       {/* Return Button */}
-      <button 
+      {/* <button 
         onClick={handleReturnToMap} 
         className="return-to-map-button"
         style={{
@@ -116,9 +137,8 @@ const Artwork = ({ artwork, lng }: ArtworkProps) => {
           ? '← Return to Map' 
           : '← Back to Map'
         }
-      </button>
+      </button> */}
       
-      <div className="artwork-detail">
         <div className="artwork-image">
           {mainImage && (
             <Image
@@ -126,72 +146,36 @@ const Artwork = ({ artwork, lng }: ArtworkProps) => {
               alt={artwork.title}
               width={mainImage.width}
               height={mainImage.height}
-              style={{ 
-                objectFit: 'contain',
-                maxWidth: '100%',
-                height: 'auto'
-              }}
             />
           )}
         </div>
         
         <div className="artwork-info">
-          <h1>{artwork.title}</h1>
-          
-          <div className="artwork-metadata">
-            <div className="metadata-item">
-              <span className="label">Year:</span>
-              <span className="value">{artwork.artworkFields.year}</span>
-            </div>
-                               <div className="metadata-item">
-              <span className="label">Medium:</span>
-              <span className="value">{artwork.artworkFields.medium}</span>
-            </div>
-            <div className="metadata-item">
-              <span className="label">Size:</span>
-              <span className="value">{artwork.artworkFields.size}</span>
-            </div>
-            <div className="metadata-item">
-              <span className="label">Location:</span>
-              <span className="value">{artwork.artworkFields.city}, {artwork.artworkFields.country}</span>
-            </div>
-            {artwork.artworkFields.series && (
-              <div className="metadata-item">
-                <span className="label">Series:</span>
-                <span className="value">{artwork.artworkFields.series}</span>
-              </div>
-            )}
-            {artwork.artworkFields.style && (
-              <div className="metadata-item">
-                <span className="label">Style:</span>
-                <span className="value">{artwork.artworkFields.style}</span>
-              </div>
+          <div className="artowrk-title">
+            <h1>{artwork.title}</h1>
+            <h5>{artwork.artworkFields.width} x {artwork.artworkFields.height}</h5>
+            <h5>{artwork.artworkFields.medium}</h5>
+            <h5>{artwork.artworkFields.year}</h5>
+          </div>
+          <div className="artwork-story">
+            {typeof theStory === 'string' ? theStory : (
+              <div dangerouslySetInnerHTML={theStory} />
             )}
           </div>
-          
-          <div 
-            className="artwork-description"
-            dangerouslySetInnerHTML={{ __html: artwork.content }}
-          />
-          
-          {artwork.artworkFields.forsale && (
-            <div className="artwork-sale">
-              <p className="for-sale-badge">Available for Purchase</p>
-              {artwork.artworkFields.artworklink && (
-                <a 
-                  href={artwork.artworkFields.artworklink.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="purchase-link"
-                >
-                  {artwork.artworkFields.artworklink.title || 'Purchase Artwork'}
-                </a>
-              )}
-            </div>
-          )}
+          <div className="artwork-links">
+            {artwork.colorfulfields?.ar && (
+              <div 
+                className="artowrk-ar"
+                onClick={() => {
+                  console.log('Opening AR for artwork:', artwork.slug);
+                }}
+              >
+                <h1>AR</h1>
+              </div>
+            )}
+          </div>     
         </div>
       </div>
-    </div>
   )
 }
 

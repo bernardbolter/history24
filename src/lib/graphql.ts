@@ -1,6 +1,6 @@
 export const getAllArtwork = `
     query getAllArtwork {
-        allArtwork(first: 1000) {
+        allArtwork(where: {categoryName: "A Colorful History"}, first: 1000) {
             nodes {
                 slug
                 artworkFields {
@@ -36,6 +36,13 @@ export const getAllArtwork = `
                     style
                     width
                     year
+                }
+                colorfulFields {
+                    wikiLinkEn
+                    wikiLinkDe
+                    storyEn
+                    storyDe
+                    ar
                 }
                 title(format: RENDERED)
                 content(format: RENDERED)
@@ -326,6 +333,14 @@ export interface ArtworkFields {
     year: number;
 }
 
+export interface ColorfulFields {
+    ar?: string;
+    storyde?: string;
+    storyen?: string;
+    wikilinkde?: string;
+    wikilinken?: string;
+}
+
 export interface FeaturedImage {
     node: {
         sourceUrl: string;
@@ -336,6 +351,7 @@ export interface FeaturedImage {
 export interface Artwork {
     slug: string;
     artworkFields: ArtworkFields;
+    colorfulfields?: ColorfulFields;
     title: string;
     content: string;
     databaseId: number;

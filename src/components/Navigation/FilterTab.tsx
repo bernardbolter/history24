@@ -12,7 +12,7 @@ import FilterDot from "../Map/FilterDot"
 
 import variables from '@/style/vars.module.scss'
 
-import { decideColor } from '@/helpers'
+import { decideColor } from '@/helpers/helpers'
 
 interface FilterTabProps {
     lng: string;

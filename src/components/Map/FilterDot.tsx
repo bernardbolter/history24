@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import variables from '@/style/vars.module.scss'
-import { decideColor } from '@/helpers'
+import { decideColor } from '@/helpers/helpers'
 
 const FilterDot = ({ checked }) => {
     const filterColor = useMemo(() => {

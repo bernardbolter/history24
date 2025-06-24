@@ -15,7 +15,7 @@ import Enlarge from '@/svg/enlarge'
 import { Controlled as ControlledZoom } from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
-import { interpolate } from '@/helpers'
+import { interpolate } from '@/helpers/helpers'
 
 // Types for better type safety
 interface ArtworkFields {

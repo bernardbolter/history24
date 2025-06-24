@@ -2,7 +2,7 @@
 
 import { useState, useEffect, createContext, Dispatch, SetStateAction, ReactNode } from 'react'
 import { Artwork } from '@/lib/graphql'
-import { interpolate } from '@/helpers'
+import { interpolate } from '@/helpers/helpers'
 
 interface Coordinates {
   lat: number;

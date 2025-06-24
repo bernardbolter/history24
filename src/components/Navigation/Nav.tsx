@@ -1,14 +1,24 @@
 "use client"
 
 import { useContext } from 'react'
+import { usePathname } from 'next/navigation'
 import { HistoryContext } from '@/providers/HistoryProvider'
 import { useTranslation } from "@/app/i18n/client"
 import Link from 'next/link'
-import CartIcon from '../Shop/CartIcon'
 
 const Nav = ({ lng }) => {
     const [history, setHistory] = useContext(HistoryContext)
     const { t } = useTranslation(lng, 'common')
+    const pathname = usePathname()
+    
+    // Check if we're on an artwork page (path pattern: /[lng]/[slug])
+    const isArtworkPage = pathname.split('/').length === 3 && 
+                         pathname !== `/${lng}` && 
+                         !pathname.includes('/shop') && 
+                         !pathname.includes('/cart') && 
+                         !pathname.includes('/contact') && 
+                         !pathname.includes('/about')
+    
     // console.log(history)
 
     return (
@@ -25,7 +35,6 @@ const Nav = ({ lng }) => {
                     <span />
                     <span />
                 </button>
-                <CartIcon lng={lng} />
             </div>
             <nav
                 id="navigation"
