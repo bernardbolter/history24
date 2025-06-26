@@ -7,30 +7,49 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: auto;
 
     @media screen and (min-width: $desktop) {
         flex-direction: row;
+        height: 100vh;
+    }
+}
+
+.artwork-image {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 90%;
+    max-height: 90vh;
+    
+    @media screen and (min-width: $desktop) {
+        // Desktop styles: 65% width or 90% height
+        max-width: 65%;
+        max-height: 90vh;
     }
 
-    .artwork-image {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    img {
+        // Mobile styles: constrain to 90% width or height
+        
+        width: auto;
+        height: auto;
+        object-fit: fill;
+    }
+}
 
-        img {
-            // Mobile styles: constrain to 90% width or height
-            max-width: 90%;
-            max-height: 90vh;
-            width: auto;
-            height: auto;
-            object-fit: contain;
+.artwork-info {
+    width: auto
+}
 
-            @media screen and (min-width: $desktop) {
-                // Desktop styles: 65% width or 90% height
-                max-width: 65%;
-                max-height: 90vh;
-            }
-        }
+.artwork-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    svg {
+        width: 30px;
+        height: 30px;
     }
 }

@@ -18,5 +18,7 @@
     "latest" : "latest",
     "oldest" : "oldest",
     "random" : "random",
-    "minimize" : "minimize"
+    "minimize" : "minimize",
+    "paintingPhotographyAndHistory" : "Painting, Photography and History",
+    "by" : "by"
 }

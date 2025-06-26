@@ -172,6 +172,66 @@ export const getProductCategories = `
     }
 `
 
+export const getArtworkBySlug = `
+    query getArtworkBySlug($slug: ID!) {
+        artwork(id: $slug, idType: SLUG) {
+            slug
+            artworkFields {
+                city
+                artworklink {
+                    url
+                    title
+                }
+                artworkImage {
+                    mediaDetails {
+                        sizes(include: [MEDIUM, LARGE, THUMBNAIL]) {
+                            sourceUrl
+                            height
+                            width
+                        }
+                        width
+                        height
+                    }
+                    mediaItemUrl
+                }
+                country
+                forsale
+                height
+                lat
+                lng
+                medium
+                metadescription
+                metakeywords
+                orientation
+                proportion
+                series
+                size
+                style
+                width
+                year
+            }
+            colorfulFields {
+                wikiLinkEn
+                wikiLinkDe
+                storyEn
+                storyDe
+                ar
+            }
+            title(format: RENDERED)
+            content(format: RENDERED)
+            databaseId
+            id
+            date
+            featuredImage {
+                node {
+                    sourceUrl
+                    altText
+                }
+            }
+        }
+    }
+`
+
 export const getProductBySlug = `
     query getProductBySlug($slug: ID!) {
         product(id: $slug, idType: SLUG) {
@@ -335,10 +395,10 @@ export interface ArtworkFields {
 
 export interface ColorfulFields {
     ar?: string;
-    storyde?: string;
-    storyen?: string;
-    wikilinkde?: string;
-    wikilinken?: string;
+    storyDe?: string;
+    storyEn?: string;
+    wikiLinkDe?: string;
+    wikiLinkEn?: string;
 }
 
 export interface FeaturedImage {
@@ -351,19 +411,24 @@ export interface FeaturedImage {
 export interface Artwork {
     slug: string;
     artworkFields: ArtworkFields;
-    colorfulfields?: ColorfulFields;
+    colorfulFields?: ColorfulFields;
     title: string;
     content: string;
     databaseId: number;
     id: string;
     date: string;
     featuredImage: FeaturedImage;
+    index: number;
 }
 
 export interface ArtworkResponse {
     allArtwork: {
         nodes: Artwork[];
     };
+}
+
+export interface SingleArtworkResponse {
+    artwork: Artwork;
 }
 
 // TypeScript interfaces for WooCommerce data

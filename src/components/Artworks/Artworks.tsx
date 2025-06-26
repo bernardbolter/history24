@@ -6,8 +6,6 @@ import { useTranslation } from '@/app/i18n/client'
 import { Artwork } from '@/lib/graphql'
 
 import dynamic from 'next/dynamic'
-
-import List from '@/components/List'
 import Loader from '@/components/Loader'
 import ArtworkAnimation from '@/components/Animation/ArtworkAnimation'
 
@@ -63,22 +61,13 @@ const Artworks = ({ lng, artworks }: ArtworksProps) => {
         }
     }, [artworks, history.original, setHistory])
 
-    console.log('Artworks render - loaded:', loaded, 'viewMap:', history.viewMap, 'animation state:', history.animation)
-
     return (
         <section className="artworks-container">
             {!loaded 
             ? (
                 <Loader />
             ) : (
-                <>
-                    {history.viewMap ? (
-                        <Map lng={lng} />
-                    ) : (
-                        <List lng={lng} />
-                    )}
-                    <ArtworkAnimation lng={lng} />
-                </>
+                <Map lng={lng} />
             )}
         </section>
     )
