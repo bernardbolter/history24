@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ["digitalcityseries.com"],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'digitalcityseries.com',
+                port: '',
+                pathname: '/**',
+            },
+        ],
     },
     webpack: (config) => {
     config.resolve.fallback = {
