@@ -296,10 +296,73 @@
     }
 }
 
+.artwork-switch-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+
+    p {
+        font-size: 11px;
+        font-weight: 800;
+        color: $dark-fill;
+        margin: 5px 3px 0;
+    }
+
+    svg {
+        width: 30px;
+        height: 18px;
+    }
+}
+
+.logo-switch-divider {
+    width: 60px;
+    height: 1px;
+    background: $dark-fill;
+    opacity: .4;
+    margin: 5px 0 0;
+}
+
+.lng-switch-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+
+    svg {
+        width: 30px;
+        height: 18px;
+    }
+
+    .us-flag-container {
+        width: 18px;
+        height: 18px;
+        margin: 6px 4px 0 0;
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    .de-flag-container {
+        width: 22px;
+        height: 22px;
+        margin: 6px 0 0 4px;
+
+        svg {
+            width: 22px;
+            height: 22px;
+        }
+    }
+}
+
 /////////////////////// SEARCH
 
 .nav-search {
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -324,6 +387,7 @@
     font-size: 14px;
     padding: 5px 10px;
     outline: none;
+    width: 90%;
 
     &::placeholder {
         font-size: 12px;
