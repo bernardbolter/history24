@@ -6,9 +6,9 @@ import HistoryProvider from "@/providers/HistoryProvider"
 
 import "@/style/index.scss"
 
-export async function generateStatisParams() {
-  return languages.map(lng => ({ lng }))
-}
+// export async function generateStatisParams() {
+//   return languages.map(lng => ({ lng }))
+// }
 
 export const metadata = {
   title: "A Colorful History",
