@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Artwork as ArtworkType } from '@/lib/graphql'
 
-import MagnifyPlus from '@/svg/magnifyPlus'
-import sliderSvg from '@/svg/sliderSvg'
+
 import ARsvg from '@/svg/ARsvg'
 interface ArtworkProps {
   artwork: ArtworkType
@@ -99,7 +98,7 @@ const Artwork = ({ artwork, lng, index }: ArtworkProps) => {
               className="artwork-enlarge"
               onClick={() => setEnlarge(true)}
               >
-                <MagnifyPlus />
+                <p>magnify</p>
             </div>
             {artwork.colorfulFields?.ar && (
               <div 
