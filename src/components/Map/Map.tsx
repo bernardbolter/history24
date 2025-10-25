@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef, useContext, useMemo, useCallback } from 'react'
 import { HistoryContext } from '@/providers/HistoryProvider'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { Map as LibreMap, Marker, Popup } from '@vis.gl/react-maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -79,6 +81,7 @@ interface MapProps {
 const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
   const [history, setHistory] = useContext(HistoryContext)
   const mapRef = useRef(null)
+  const router = useRouter()
 
   // Simplified state management
   const [markerGroups, setMarkerGroups] = useState<MarkerGroup[]>([])
@@ -256,6 +259,7 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
     const currentArtwork = getCurrentArtwork(group)
     const totalWidth = getTotalWidth(group.artworks)
     const transformOffset = getTransformOffset(group)
+    const router = useRouter()
 
     return (
       <div className="map-marker-container" key={groupKey}>
@@ -321,6 +325,7 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
                       if (artwork.slug !== history.popupOpen) {
                         setHistory(state => ({ ...state, popupOpen: artwork.slug }))
                       }
+
                     }}
                   >
                     <Image
@@ -328,16 +333,19 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
                       alt={`thumbnail image of ${artwork.title}`}
                       width={100 * artwork.artworkFields.proportion}
                       height={100}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        triggerArtworkAnimation(
-                          artwork as any,
-                          e.currentTarget,
-                          setHistory,
-                          history.coords,
-                          history.zoomLevel,
-                          history.popupOpen
-                        )
+                      // onClick={(e) => {
+                      //   e.stopPropagation()
+                      //   triggerArtworkAnimation(
+                      //     artwork as any,
+                      //     e.currentTarget,
+                      //     setHistory,
+                      //     history.coords,
+                      //     history.zoomLevel,
+                      //     history.popupOpen
+                      //   )
+                      // }}
+                      onClick={() => {
+                        console.log('clicked: ', artwork.slug)
                       }}
                       style={{ cursor: 'pointer' }}
                     />
@@ -347,17 +355,21 @@ const ArtworkMap: React.FC<MapProps> = ({ lng }) => {
                         width: 100 * artwork.artworkFields.proportion,
                         height: 100
                       }}
-                      onClick={(e) => {
-                        console.log('clicked enlarge')
-                        e.stopPropagation()
-                        triggerArtworkAnimation(
-                          artwork as any,
-                          e.currentTarget,
-                          setHistory,
-                          history.coords,
-                          history.zoomLevel,
-                          history.popupOpen
-                        )
+                      // onClick={(e) => {
+                      //   console.log('clicked enlarge')
+                      //   e.stopPropagation()
+                      //   triggerArtworkAnimation(
+                      //     artwork as any,
+                      //     e.currentTarget,
+                      //     setHistory,
+                      //     history.coords,
+                      //     history.zoomLevel,
+                      //     history.popupOpen
+                      //   )
+                      // }}
+                      onClick={() => {
+                        console.log('clicked: ', artwork.slug)
+                        router.push(`/${artwork.slug}`)
                       }}
                     >
                       <Enlarge />

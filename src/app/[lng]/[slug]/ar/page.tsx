@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getArtworkBySlug, Artwork, SingleArtworkResponse } from '@/lib/graphql'
+import ARView from '@/components/AR/ARView'
 
 interface ArtworkArPageProps {
   params: {
@@ -58,6 +59,7 @@ const ArtworkArPage = async ({ params: { slug, lng } }: ArtworkArPageProps) => {
 
   return (
     <div className="artwork-ar-page">
+      <ARView artwork={artwork} />
     </div>
   )
 }
